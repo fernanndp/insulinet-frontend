@@ -1,0 +1,528 @@
+@media (
+  max-width: 650px
+) {
+
+  .dashboard-header {
+    padding: 0 20px;
+  }
+
+  .dashboard-content {
+    padding: 24px 16px;
+  }
+
+  .dashboard-title {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .compact-button {
+    width: 100%;
+  }
+
+  .insulin-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .header-user span {
+    display: none;
+  }
+
+}
+
+@media (
+  max-width: 520px
+) {
+
+  .modal-card {
+    padding: 22px;
+  }
+
+  .date-time-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-actions {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+@media (
+  max-width: 650px
+) {
+
+  .dose-mode-buttons {
+    grid-template-columns: 1fr;
+  }
+
+  .batch-generator-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .batch-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .batch-row {
+    grid-template-columns:
+      30px 1fr;
+  }
+
+  .batch-date {
+    grid-column: 2;
+  }
+
+  .batch-field {
+    grid-column: 2;
+  }
+
+  .batch-summary {
+    justify-content: space-between;
+  }
+
+}
+
+@media (
+  max-width: 520px
+) {
+
+  .stock-product-info {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+@media (
+  max-width: 650px
+) {
+
+  .history-modal {
+    max-height: 92vh;
+  }
+
+  .history-header {
+    padding:
+      22px 20px
+      18px;
+  }
+
+  .history-summary {
+    padding:
+      14px 20px;
+
+    grid-template-columns:
+      100px 1fr;
+  }
+
+  .history-content {
+    padding:
+      10px 20px
+      8px;
+  }
+
+  .history-footer {
+    padding:
+      14px 20px
+      18px;
+  }
+
+  .dose-history-item {
+    padding: 14px;
+  }
+
+  .dose-amount strong {
+    font-size: 21px;
+  }
+
+}
+
+@media (
+  max-width: 520px
+) {
+
+  .insulin-form-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+  .insulin-calculation-preview > div {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 4px;
+  }
+
+}
+
+@media (
+  max-width: 600px
+) {
+
+  .movement-history-summary {
+    padding:
+      12px 20px;
+  }
+
+  .movement-history-top {
+    align-items:
+      flex-start;
+  }
+
+  .movement-history-title {
+    flex-direction:
+      column;
+
+    align-items:
+      flex-start;
+
+    gap:
+      5px;
+  }
+
+  .movement-amount strong {
+    font-size:
+      19px;
+  }
+
+}
+
+@media (
+  max-width: 600px
+) {
+
+  .inactive-section-content {
+    padding:
+      0 12px 12px;
+  }
+
+  .inactive-section-toggle {
+    padding:
+      14px;
+  }
+
+}
+
+@media (
+  max-width: 900px
+) {
+
+  .dashboard-v2 .insulin-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+  .dashboard-content-v2 {
+    width:
+      min(
+        700px,
+        calc(100% - 36px)
+      );
+  }
+
+}
+
+@media (
+  max-width: 600px
+) {
+
+  .dashboard-header-v2 {
+    min-height:
+      66px;
+
+    padding:
+      0 16px;
+  }
+
+  .brand-mark {
+    width:
+      34px;
+
+    height:
+      34px;
+  }
+
+  .dashboard-brand p {
+    display:
+      none;
+  }
+
+  .header-user-profile
+  > div:last-child {
+    display:
+      none;
+  }
+
+  .dashboard-content-v2 {
+    width:
+      calc(100% - 24px);
+
+    padding:
+      30px 0 50px;
+  }
+
+  .dashboard-hero {
+    align-items:
+      stretch;
+
+    flex-direction:
+      column;
+
+    gap:
+      18px;
+
+    margin-bottom:
+      28px;
+  }
+
+  .dashboard-hero h2 {
+    font-size:
+      25px;
+  }
+
+  .add-insulin-main-button {
+    width:
+      100%;
+  }
+
+  .insulin-section-header
+  > p {
+    display:
+      none;
+  }
+
+  .dashboard-v2
+  .insulin-card-v2 {
+    padding:
+      17px;
+
+    border-radius:
+      15px;
+  }
+
+  .dashboard-v2
+  .insulin-card-header {
+    gap:
+      10px;
+  }
+
+  .insulin-card-header-actions {
+    flex-direction:
+      column;
+
+    align-items:
+      flex-end;
+  }
+
+  .stock-value strong {
+    font-size:
+      27px;
+  }
+
+  .stock-available-badge {
+    display:
+      none;
+  }
+
+  .dashboard-v2
+  .metrics-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+  .dashboard-v2
+  .metric {
+    min-height:
+      auto;
+  }
+
+  .dashboard-v2
+  .projection-info {
+    align-items:
+      flex-start;
+
+    flex-direction:
+      column;
+
+    gap:
+      7px;
+  }
+
+  .dashboard-v2
+  .insulin-details {
+    flex-wrap:
+      wrap;
+  }
+
+  .dashboard-v2
+  .card-actions {
+    grid-template-columns:
+      1fr;
+  }
+
+  .dashboard-v2
+  .card-actions
+  .full-card-action,
+  .dashboard-v2
+  .history-button {
+    grid-column:
+      auto;
+  }
+
+}
+
+@media (
+  max-width: 520px
+) {
+
+  .modal-backdrop {
+    padding:
+      12px;
+  }
+
+  .modal-card:not(.history-modal) {
+    max-height:
+      calc(100vh - 24px);
+
+    padding:
+      20px;
+
+    border-radius:
+      15px;
+  }
+
+  .modal-card:not(.history-modal)
+  .modal-header {
+    margin-bottom:
+      20px;
+
+    padding-bottom:
+      16px;
+  }
+
+  .modal-card:not(.history-modal)
+  .modal-header h2 {
+    font-size:
+      18px;
+  }
+
+  .modal-card:not(.history-modal)
+  .modal-actions {
+    grid-template-columns:
+      1fr;
+  }
+
+}
+
+@media (
+  max-width: 520px
+) {
+
+  .auth-page {
+    align-items: flex-start;
+
+    padding:
+      24px 14px;
+
+    background:
+      #f8fafc;
+  }
+
+  .auth-page::before,
+  .auth-page::after {
+    display: none;
+  }
+
+  .auth-card {
+    max-width: none;
+
+    padding:
+      26px 22px;
+
+    border-radius:
+      16px;
+
+    box-shadow:
+      0 8px 30px
+        rgba(15, 23, 42, 0.06);
+  }
+
+  .auth-card > h1,
+  .auth-card > h2 {
+    font-size:
+      22px;
+  }
+
+}
+
+@media (
+  max-width: 900px
+) {
+
+  .dashboard-content-v2 {
+    width:
+      min(
+        720px,
+        calc(100% - 36px)
+      );
+  }
+
+  .dashboard-v2
+  .dashboard-hero {
+    align-items:
+      flex-start;
+  }
+
+}
+
+@media (
+  max-width: 600px
+) {
+
+  .dashboard-content-v2 {
+    width:
+      calc(100% - 24px);
+  }
+
+  .dashboard-v2
+  .add-insulin-main-button {
+    width:
+      100%;
+  }
+
+  .dashboard-v2
+  .stock-highlight {
+    min-height:
+      105px;
+
+    padding:
+      19px;
+
+    flex-direction:
+      row;
+  }
+
+  .dashboard-v2
+  .stock-value strong {
+    font-size:
+      34px;
+  }
+
+  .dashboard-v2
+  .stock-available-badge {
+    display:
+      none;
+  }
+
+  .dashboard-v2
+  .insulin-card-v2 {
+    padding:
+      18px;
+  }
+
+}
