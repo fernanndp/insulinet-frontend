@@ -1295,6 +1295,9 @@
   justify-content:
     flex-end;
 
+  gap:
+    8px;
+
   margin-top:
     13px;
 
@@ -2243,4 +2246,39 @@ select:focus {
 
   background:
     #f8fafc;
+}
+
+.history-delete-button {
+  padding: 7px 11px;
+
+  border: 1px solid #f87171;
+  border-radius: 7px;
+
+  background: #ffffff;
+
+  color: #dc2626;
+
+  cursor: pointer;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.history-delete-button:hover:not(:disabled) {
+  border-color: #ef4444;
+
+  background: #fef2f2;
+
+  color: #b91c1c;
+}
+
+.history-delete-button:disabled {
+  opacity: 0.6;
+
+  cursor: not-allowed;
 }

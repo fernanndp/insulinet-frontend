@@ -58,3 +58,16 @@ export async function updateDose(
     body: JSON.stringify(payload),
   });
 }
+
+export async function deleteDose(
+  insulinId: number,
+  doseId: number
+): Promise<void> {
+  await apiRequest(
+    `/api/insulins/${insulinId}/doses/${doseId}`,
+    {
+      method: "DELETE",
+      headers: authHeaders(),
+    }
+  );
+}

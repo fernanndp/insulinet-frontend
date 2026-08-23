@@ -4,13 +4,11 @@ import {
   useState,
 } from "react";
 
-import EditDoseModal
-  from "./EditDoseModal";
-
-import EditStockEntryModal
-  from "../stock/EditStockEntryModal";
+import EditDoseModal from "./EditDoseModal";
+import EditStockEntryModal from "../stock/EditStockEntryModal";
 
 import {
+  deleteDose,
   getHistory,
 } from "../../services/doseService";
 
@@ -19,26 +17,17 @@ import type {
   MovementType,
 } from "../../types/movement";
 
-
-
 type Props = {
   insulinId: number;
-
   insulinName: string;
-
   concentrationUnitsPerMl: number;
-
   containerVolumeMl: number;
-
   onClose: () => void;
-
   onChanged: () => void;
 };
 
-
 const FORTALEZA_TIMEZONE =
   "America/Fortaleza";
-
 
 function formatFortalezaDate(
   isoDate: string
@@ -48,11 +37,8 @@ function formatFortalezaDate(
     {
       timeZone:
         FORTALEZA_TIMEZONE,
-
       day: "2-digit",
-
       month: "short",
-
       year: "numeric",
     }
   )
@@ -63,7 +49,6 @@ function formatFortalezaDate(
     .toUpperCase();
 }
 
-
 function formatFortalezaTime(
   isoDate: string
 ) {
@@ -72,18 +57,14 @@ function formatFortalezaTime(
     {
       timeZone:
         FORTALEZA_TIMEZONE,
-
       hour: "2-digit",
-
       minute: "2-digit",
-
       hour12: false,
     }
   ).format(
     new Date(isoDate)
   );
 }
-
 
 function formatUnits(
   value: string
@@ -98,12 +79,10 @@ function formatUnits(
   );
 }
 
-
 function getMovementLabel(
   movementType: MovementType
 ) {
   switch (movementType) {
-
     case "DOSE":
       return "Aplicação";
 
@@ -121,7 +100,6 @@ function getMovementLabel(
   }
 }
 
-
 function getMovementClass(
   movement: Movement
 ) {
@@ -132,7 +110,6 @@ function getMovementClass(
     return "movement-dose";
   }
 
-
   if (
     movement.movement_type ===
     "STOCK_IN"
@@ -140,14 +117,12 @@ function getMovementClass(
     return "movement-positive";
   }
 
-
   if (
     movement.movement_type ===
     "DISCARD"
   ) {
     return "movement-negative";
   }
-
 
   if (
     movement.movement_type ===
@@ -162,10 +137,8 @@ function getMovementClass(
     );
   }
 
-
   return "";
 }
-
 
 function getMovementSign(
   movement: Movement
@@ -175,20 +148,16 @@ function getMovementSign(
       movement.quantity_units
     );
 
-
   if (quantity > 0) {
     return "+";
   }
-
 
   if (quantity < 0) {
     return "−";
   }
 
-
   return "";
 }
-
 
 function getMovementDescription(
   movement: Movement
@@ -196,7 +165,6 @@ function getMovementDescription(
   switch (
     movement.movement_type
   ) {
-
     case "DOSE":
       return "Aplicação registrada";
 
@@ -220,7 +188,6 @@ function getMovementDescription(
   }
 }
 
-
 export default function DoseHistoryModal({
   insulinId,
   insulinName,
@@ -229,16 +196,11 @@ export default function DoseHistoryModal({
   onClose,
   onChanged,
 }: Props) {
-
   const [
     movements,
     setMovements,
   ] =
     useState<Movement[]>([]);
-
-
-  
-
 
   const [
     editDose,
@@ -248,11 +210,6 @@ export default function DoseHistoryModal({
       null
     );
 
-
-  
-
-
-
   const [
     editStockEntry,
     setEditStockEntry,
@@ -261,13 +218,11 @@ export default function DoseHistoryModal({
       null
     );
 
-
   const [
     loading,
     setLoading,
   ] =
     useState(true);
-
 
   const [
     error,
@@ -275,33 +230,26 @@ export default function DoseHistoryModal({
   ] =
     useState("");
 
-
-  
-  
-  
+  const [
+    deletingDoseId,
+    setDeletingDoseId,
+  ] =
+    useState<number | null>(
+      null
+    );
 
   const loadHistory =
     useCallback(
       async () => {
-
         try {
-
           setLoading(true);
-
           setError("");
-
 
           const history:
             Movement[] =
             await getHistory(
               insulinId
             );
-
-
-          
-
-
-
 
           const ordered =
             [...history]
@@ -319,47 +267,74 @@ export default function DoseHistoryModal({
                   ).getTime()
               );
 
-
           setMovements(
             ordered
           );
-
         } catch (err) {
-
           setError(
             err instanceof Error
               ? err.message
               : "Não foi possível carregar o histórico."
           );
-
         } finally {
-
           setLoading(false);
-
         }
-
       },
       [
         insulinId,
       ]
     );
 
-
   useEffect(
     () => {
-
       void loadHistory();
-
     },
     [
       loadHistory,
     ]
   );
 
+  async function handleDeleteDose(
+    movement: Movement
+  ) {
+    const confirmed =
+      window.confirm(
+        `Deseja realmente excluir esta aplicação de ${formatUnits(
+          movement.quantity_units
+        )} U?`
+      );
 
-  
-  
-  
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      setDeletingDoseId(
+        movement.id
+      );
+
+      setError("");
+
+      await deleteDose(
+        insulinId,
+        movement.id
+      );
+
+      await loadHistory();
+
+      onChanged();
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Não foi possível excluir a aplicação."
+      );
+    } finally {
+      setDeletingDoseId(
+        null
+      );
+    }
+  }
 
   const doseCount =
     movements.filter(
@@ -368,14 +343,12 @@ export default function DoseHistoryModal({
         "DOSE"
     ).length;
 
-
   const stockInCount =
     movements.filter(
       (movement) =>
         movement.movement_type ===
         "STOCK_IN"
     ).length;
-
 
   const adjustmentCount =
     movements.filter(
@@ -384,21 +357,14 @@ export default function DoseHistoryModal({
         "ADJUSTMENT"
     ).length;
 
-
-  
-  
-  
-
   return (
     <>
-
       <div
         className="modal-backdrop"
         onMouseDown={
           onClose
         }
       >
-
         <section
           className="
             modal-card
@@ -409,30 +375,20 @@ export default function DoseHistoryModal({
               event.stopPropagation()
           }
         >
-
-
-          
-
           <div className="history-header">
-
             <div>
-
               <span className="history-eyebrow">
                 MOVIMENTAÇÕES
               </span>
-
 
               <h2>
                 Histórico
               </h2>
 
-
               <p>
                 {insulinName}
               </p>
-
             </div>
-
 
             <button
               type="button"
@@ -444,20 +400,13 @@ export default function DoseHistoryModal({
             >
               ×
             </button>
-
           </div>
-
-
-          
 
           {!loading &&
             !error &&
             movements.length > 0 && (
-
             <div className="movement-history-summary">
-
               <div>
-
                 <span>
                   Movimentações
                 </span>
@@ -465,12 +414,9 @@ export default function DoseHistoryModal({
                 <strong>
                   {movements.length}
                 </strong>
-
               </div>
 
-
               <div>
-
                 <span>
                   Aplicações
                 </span>
@@ -478,12 +424,9 @@ export default function DoseHistoryModal({
                 <strong>
                   {doseCount}
                 </strong>
-
               </div>
 
-
               <div>
-
                 <span>
                   Entradas
                 </span>
@@ -491,12 +434,9 @@ export default function DoseHistoryModal({
                 <strong>
                   {stockInCount}
                 </strong>
-
               </div>
 
-
               <div>
-
                 <span>
                   Ajustes
                 </span>
@@ -504,49 +444,29 @@ export default function DoseHistoryModal({
                 <strong>
                   {adjustmentCount}
                 </strong>
-
               </div>
-
             </div>
-
           )}
 
-
-          
-
           <div className="history-content">
-
-
-            
-
             {loading ? (
-
               <div className="history-state">
-
                 <div className="history-spinner" />
 
                 <span>
                   Carregando histórico...
                 </span>
-
               </div>
-
             ) : error ? (
-
-              
-
               <div className="history-error">
-
                 <strong>
                   Não foi possível
                   carregar o histórico
                 </strong>
 
-
                 <span>
                   {error}
                 </span>
-
 
                 <button
                   type="button"
@@ -557,66 +477,47 @@ export default function DoseHistoryModal({
                 >
                   Tentar novamente
                 </button>
-
               </div>
-
             ) : movements.length ===
               0 ? (
-
-              
-
               <div className="history-empty">
-
                 <div className="history-empty-icon">
                   —
                 </div>
-
 
                 <strong>
                   Nenhuma movimentação registrada
                 </strong>
 
-
                 <span>
                   Aplicações, entradas e ajustes
                   aparecerão aqui.
                 </span>
-
               </div>
-
             ) : (
-
-              
-
               <div className="movement-history-list">
-
                 {movements.map(
                   (
                     movement
                   ) => {
-
                     const movementClass =
                       getMovementClass(
                         movement
                       );
 
+                    const isDeleting =
+                      deletingDoseId ===
+                      movement.id;
 
                     return (
-
                       <article
                         key={
                           movement.id
                         }
                         className="movement-history-item"
                       >
-
-
-                        
-
                         <div className="movement-history-top">
-
                           <div className="movement-history-title">
-
                             <span
                               className={
                                 `movement-type-badge ${movementClass}`
@@ -628,29 +529,20 @@ export default function DoseHistoryModal({
                               )}
                             </span>
 
-
                             <span className="movement-date">
-
                               {formatFortalezaDate(
                                 movement
                                   .occurred_at
                               )}
-
                             </span>
-
                           </div>
-
-
-                          
 
                           <div
                             className={
                               `movement-amount ${movementClass}`
                             }
                           >
-
                             <strong>
-
                               {getMovementSign(
                                 movement
                               )}
@@ -659,38 +551,26 @@ export default function DoseHistoryModal({
                                 movement
                                   .quantity_units
                               )}
-
                             </strong>
 
                             <span>
                               U
                             </span>
-
                           </div>
-
                         </div>
 
-
-                        
-
                         <div className="movement-history-meta">
-
                           <span>
-
                             {getMovementDescription(
                               movement
                             )}
-
                           </span>
-
 
                           <span className="movement-meta-separator">
                             •
                           </span>
 
-
                           <span>
-
                             {movement
                               .occurred_time_known
                               ? formatFortalezaTime(
@@ -698,42 +578,25 @@ export default function DoseHistoryModal({
                                     .occurred_at
                                 )
                               : "Horário não informado"}
-
                           </span>
-
                         </div>
 
-
-                        
-
                         {movement.notes && (
-
                           <div className="movement-note">
-
                             <span>
                               Observação
                             </span>
 
-
                             <p>
                               {movement.notes}
                             </p>
-
                           </div>
-
                         )}
-
-
-                        
-                        
-                        
 
                         {movement
                           .movement_type ===
                           "DOSE" && (
-
                           <div className="movement-actions">
-
                             <button
                               type="button"
                               className="history-edit-button"
@@ -742,25 +605,36 @@ export default function DoseHistoryModal({
                                   movement
                                 )
                               }
+                              disabled={
+                                isDeleting
+                              }
                             >
                               Editar aplicação
                             </button>
 
+                            <button
+                              type="button"
+                              className="history-delete-button"
+                              onClick={() =>
+                                void handleDeleteDose(
+                                  movement
+                                )
+                              }
+                              disabled={
+                                isDeleting
+                              }
+                            >
+                              {isDeleting
+                                ? "Excluindo..."
+                                : "Excluir aplicação"}
+                            </button>
                           </div>
-
                         )}
-
-
-                        
-                        
-                        
 
                         {movement
                           .movement_type ===
                           "STOCK_IN" && (
-
                           <div className="movement-actions">
-
                             <button
                               type="button"
                               className="history-edit-button"
@@ -772,29 +646,17 @@ export default function DoseHistoryModal({
                             >
                               Editar entrada
                             </button>
-
                           </div>
-
                         )}
-
                       </article>
-
                     );
-
                   }
                 )}
-
               </div>
-
             )}
-
           </div>
 
-
-          
-
           <div className="history-footer">
-
             <button
               type="button"
               className="
@@ -807,95 +669,63 @@ export default function DoseHistoryModal({
             >
               Fechar
             </button>
-
           </div>
-
         </section>
-
       </div>
 
       {editDose && (
-
         <EditDoseModal
-
           insulinId={
             insulinId
           }
-
           insulinName={
             insulinName
           }
-
           dose={
             editDose
           }
-
           onClose={() =>
             setEditDose(
               null
             )
           }
-
           onSuccess={() => {
-
-            
-
-
             void loadHistory();
 
-
-
             onChanged();
-
           }}
-
         />
-
       )}
 
       {editStockEntry && (
-
         <EditStockEntryModal
-
           insulinId={
             insulinId
           }
-
           insulinName={
             insulinName
           }
-
           concentrationUnitsPerMl={
             concentrationUnitsPerMl
           }
-
           containerVolumeMl={
             containerVolumeMl
           }
-
           movement={
             editStockEntry
           }
-
           onClose={() =>
             setEditStockEntry(
               null
             )
           }
-
           onSuccess={() => {
-
-      
             void loadHistory();
 
             onChanged();
-
           }}
-
         />
-
       )}
-
     </>
   );
 }
