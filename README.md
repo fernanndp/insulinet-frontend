@@ -2,6 +2,12 @@
 
 Interface web do **Insulinet**, uma aplicação para controle de estoque de insulina, registro de doses e acompanhamento da estimativa de autonomia.
 
+## Produção
+
+- Aplicação: https://insulinet-frontend-production.up.railway.app
+- API: https://insulinet-backend-production.up.railway.app
+- Documentação da API: https://insulinet-backend-production.up.railway.app/docs
+
 ## Tecnologias
 
 - React
@@ -10,6 +16,7 @@ Interface web do **Insulinet**, uma aplicação para controle de estoque de insu
 - React Router
 - Lucide React
 - CSS
+- Railway
 
 ## Funcionalidades
 
@@ -53,8 +60,6 @@ src/
 
 ## Estilos
 
-Os estilos estão separados em:
-
 ```text
 styles/
 ├── globals.css
@@ -80,7 +85,7 @@ Instale as dependências:
 npm install
 ```
 
-No Windows, caso a política do PowerShell bloqueie `npm.ps1`, utilize:
+No Windows, caso a política do PowerShell bloqueie `npm.ps1`:
 
 ```powershell
 npm.cmd install
@@ -94,7 +99,7 @@ VITE_API_URL=http://127.0.0.1:8000
 
 Nunca versione o arquivo `.env`.
 
-## Executando
+## Executando localmente
 
 ```bash
 npm run dev
@@ -106,7 +111,7 @@ No Windows:
 npm.cmd run dev
 ```
 
-A aplicação ficará disponível normalmente em:
+A aplicação ficará normalmente disponível em:
 
 ```text
 http://localhost:5173
@@ -124,12 +129,6 @@ No Windows:
 npm.cmd run build
 ```
 
-Os arquivos de produção serão gerados em:
-
-```text
-dist/
-```
-
 ## Integração com a API
 
 A URL do backend é configurada pela variável:
@@ -138,15 +137,13 @@ A URL do backend é configurada pela variável:
 VITE_API_URL=
 ```
 
+Em produção:
+
+```env
+VITE_API_URL=https://insulinet-backend-production.up.railway.app
+```
+
 As chamadas HTTP ficam centralizadas em `src/services`.
-
-O backend do projeto está em:
-
-https://github.com/fernanndp/insulinet-backend
-
-## Arquitetura do frontend
-
-O frontend evita concentrar URLs e regras de comunicação diretamente nos componentes. A camada de serviços contém as operações de autenticação, insulinas, doses, estoque e usuário.
 
 ```text
 services/
@@ -158,21 +155,31 @@ services/
 └── userService.ts
 ```
 
+## Deploy
+
+O frontend está hospedado no Railway e é integrado ao backend por meio da variável `VITE_API_URL`.
+
+Backend em produção:
+
+https://insulinet-backend-production.up.railway.app
+
+Repositório do backend:
+
+https://github.com/fernanndp/insulinet-backend
+
 ## Roadmap
 
-Entre as funcionalidades planejadas para evolução do Insulinet estão:
-
 - Alertas visuais de estoque baixo com base na autonomia estimada
-- Indicação da data recomendada para reposição de insulina
+- Indicação da data recomendada para reposição
 - Fluxo de reposição diretamente pela interface
 - Busca de opções de compra em farmácias
-- Exibição de alternativas de farmácias compatíveis com a insulina cadastrada
-- Redirecionamento do usuário para farmácias ou páginas de compra
-- Possibilidade futura de comparação de disponibilidade e preços
+- Exibição de alternativas compatíveis com a insulina cadastrada
+- Redirecionamento para farmácias ou páginas de compra
+- Possível comparação futura de disponibilidade e preços
 - Melhorias contínuas de responsividade e experiência de uso
 
 A proposta é evoluir o frontend para apoiar não apenas o acompanhamento do estoque, mas também a tomada de decisão sobre quando e onde realizar a reposição da insulina.
 
 ## Status
 
-Projeto em desenvolvimento.
+Projeto em desenvolvimento e disponível em ambiente de produção no Railway.
