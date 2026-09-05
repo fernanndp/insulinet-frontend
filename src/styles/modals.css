@@ -2277,6 +2277,171 @@ select:focus {
   color: #b91c1c;
 }
 
+.container-item {
+  padding: 16px;
+
+  border: 1px solid #eaecf0;
+  border-radius: 12px;
+
+  background: #ffffff;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+.container-item-top {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 16px;
+}
+
+.container-item-title {
+  display: flex;
+
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 9px;
+}
+
+.container-item-title strong {
+  color: #101828;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.container-status-badge {
+  display: inline-flex;
+
+  align-items: center;
+
+  min-height: 22px;
+
+  padding: 3px 9px;
+
+  border-radius: 999px;
+
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.container-status-badge.container-status-sealed {
+  background: #f2f4f7;
+  color: #475467;
+}
+
+.container-status-badge.container-status-open {
+  background: #eff6ff;
+  color: #175cd3;
+}
+
+.container-status-badge.container-status-empty {
+  background: #fef3f2;
+  color: #b42318;
+}
+
+.container-status-badge.container-status-discarded {
+  background: #f2f4f7;
+  color: #98a2b3;
+}
+
+.container-item-amount {
+  display: flex;
+
+  align-items: baseline;
+
+  gap: 4px;
+
+  flex-shrink: 0;
+}
+
+.container-item-amount strong {
+  color: #101828;
+
+  font-size: 18px;
+  font-weight: 750;
+
+  letter-spacing: -0.02em;
+}
+
+.container-item-amount span {
+  color: #667085;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.container-progress-track {
+  width: 100%;
+  height: 8px;
+
+  border-radius: 999px;
+
+  background: #f2f4f7;
+
+  overflow: hidden;
+}
+
+.container-progress-fill {
+  height: 100%;
+
+  border-radius: 999px;
+
+  background: #175cd3;
+
+  transition: width 0.2s ease;
+}
+
+.container-progress-fill.container-status-sealed {
+  background: #98a2b3;
+}
+
+.container-progress-fill.container-status-open {
+  background: #175cd3;
+}
+
+.container-progress-fill.container-status-empty {
+  background: #f04438;
+}
+
+.container-progress-fill.container-status-discarded {
+  background: #d0d5dd;
+}
+
+.container-item-meta {
+  display: flex;
+
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 6px;
+
+  color: #667085;
+
+  font-size: 12px;
+}
+
+.container-discarded-divider {
+  margin: 6px 2px 0;
+
+  color: #98a2b3;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.06em;
+
+  text-transform: uppercase;
+}
+
 .history-delete-button:disabled {
   opacity: 0.6;
 
