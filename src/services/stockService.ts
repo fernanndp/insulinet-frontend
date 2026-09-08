@@ -38,7 +38,7 @@ export async function adjustStock(
 export async function updateStockEntry(
   insulinId: number,
   movementId: number,
-  containers: number
+  units: number
 ): Promise<void> {
   await apiRequest(
     `/api/insulins/${insulinId}/stock/${movementId}`,
@@ -48,7 +48,7 @@ export async function updateStockEntry(
         ...authHeaders(),
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ containers }),
+      body: JSON.stringify({ units }),
     }
   );
 }

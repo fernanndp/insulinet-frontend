@@ -8,6 +8,7 @@ import {
   Activity,
   Clock3,
   History,
+  Layers,
   LogOut,
   PackagePlus,
   Plus,
@@ -28,6 +29,9 @@ import DoseHistoryModal
 
 import AddStockModal
   from "../components/stock/AddStockModal";
+
+import ContainersModal
+  from "../components/stock/ContainersModal";
 
 import AddInsulinModal
   from "../components/insulin/AddInsulinModal";
@@ -126,6 +130,15 @@ export default function DashboardPage() {
   const [
     stockInsulin,
     setStockInsulin,
+  ] =
+    useState<Insulin | null>(
+      null
+    );
+
+
+  const [
+    containersInsulin,
+    setContainersInsulin,
   ] =
     useState<Insulin | null>(
       null
@@ -1051,7 +1064,28 @@ export default function DashboardPage() {
             </button>
 
 
-            
+
+
+            <button
+              type="button"
+              className="secondary-button"
+              onClick={() =>
+                setContainersInsulin(
+                  insulin
+                )
+              }
+            >
+
+              <Layers
+                size={15}
+              />
+
+              Ver canetas/frascos
+
+            </button>
+
+
+
 
             <button
               type="button"
@@ -1716,6 +1750,41 @@ export default function DashboardPage() {
       
       
       
+
+      {containersInsulin && (
+
+        <ContainersModal
+
+          insulinId={
+            containersInsulin.id
+          }
+
+          insulinName={
+            containersInsulin.name
+          }
+
+          onClose={() =>
+            setContainersInsulin(
+              null
+            )
+          }
+
+          onChanged={() => {
+
+            void refreshInsulinSummary(
+              containersInsulin.id
+            );
+
+          }}
+
+        />
+
+      )}
+
+
+
+
+
 
       {adjustStockInsulin && (
 

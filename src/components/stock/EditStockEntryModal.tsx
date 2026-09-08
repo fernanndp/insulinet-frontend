@@ -46,18 +46,11 @@ export default function EditStockEntryModal({
     containerVolumeMl;
 
 
-  const initialContainers =
-    unitsPerContainer > 0
-      ? Number(movement.quantity_units) /
-        unitsPerContainer
-      : 0;
-
-
   const [
-    containers,
-    setContainers,
+    units,
+    setUnits,
   ] = useState(
-    String(initialContainers)
+    String(Number(movement.quantity_units))
   );
 
 
@@ -77,23 +70,19 @@ export default function EditStockEntryModal({
     useMemo(() => {
 
       const quantity =
-        Number(containers);
+        Number(units);
 
       if (
-        !Number.isInteger(quantity) ||
+        Number.isNaN(quantity) ||
         quantity <= 0
       ) {
         return null;
       }
 
-      return (
-        quantity *
-        unitsPerContainer
-      );
+      return quantity;
 
     }, [
-      containers,
-      unitsPerContainer,
+      units,
     ]);
 
 
@@ -106,19 +95,19 @@ export default function EditStockEntryModal({
     setError("");
 
 
-    const numericContainers =
-      Number(containers);
+    const numericUnits =
+      Number(units);
 
 
     if (
-      !Number.isInteger(
-        numericContainers
+      Number.isNaN(
+        numericUnits
       ) ||
-      numericContainers <= 0
+      numericUnits <= 0
     ) {
 
       setError(
-        "Informe uma quantidade inteira de recipientes."
+        "Informe uma quantidade de unidades maior que zero."
       );
 
       return;
@@ -133,7 +122,7 @@ export default function EditStockEntryModal({
       await updateStockEntry(
         insulinId,
         movement.id,
-        numericContainers
+        numericUnits
       );
 
 
@@ -237,23 +226,41 @@ export default function EditStockEntryModal({
 
           <label>
 
-            Quantidade correta de recipientes
+            Quantidade correta de unidades
+            desta caneta/frasco
 
-            <input
-              type="number"
-              min="1"
-              step="1"
-              value={containers}
-              onChange={(event) =>
-                setContainers(
-                  event.target.value
-                )
-              }
-              autoFocus
-              required
-            />
+            <div className="input-unit-wrapper">
+
+              <input
+                type="number"
+                min="0.01"
+                step="0.01"
+                value={units}
+                onChange={(event) =>
+                  setUnits(
+                    event.target.value
+                  )
+                }
+                autoFocus
+                required
+              />
+
+              <span>
+                U
+              </span>
+
+            </div>
 
           </label>
+
+
+          <div className="form-hint">
+
+            Só é possível editar uma entrada
+            enquanto essa caneta/frasco ainda
+            não foi aberto.
+
+          </div>
 
 
           {newTotal !== null && (
@@ -265,7 +272,6 @@ export default function EditStockEntryModal({
               </span>
 
               <strong>
-                +
                 {newTotal.toLocaleString(
                   "pt-BR",
                   {
@@ -274,21 +280,6 @@ export default function EditStockEntryModal({
                 )}
                 {" "}U
               </strong>
-
-              <small>
-                {containers} recipiente
-                {Number(containers) !== 1
-                  ? "s"
-                  : ""}
-                {" × "}
-                {unitsPerContainer.toLocaleString(
-                  "pt-BR",
-                  {
-                    maximumFractionDigits: 2,
-                  }
-                )}
-                {" "}U
-              </small>
 
             </div>
 
