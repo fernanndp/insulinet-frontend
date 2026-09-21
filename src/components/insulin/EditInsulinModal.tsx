@@ -21,6 +21,8 @@ type Props = {
 
   initialContainerVolumeMl: string;
 
+  initialOpenValidityDays: number;
+
   initialActive: boolean;
 
   onClose: () => void;
@@ -34,6 +36,7 @@ export default function EditInsulinModal({
   initialName,
   initialConcentrationUnitsPerMl,
   initialContainerVolumeMl,
+  initialOpenValidityDays,
   initialActive,
   onClose,
   onSuccess,
@@ -60,6 +63,14 @@ export default function EditInsulinModal({
     setVolume,
   ] = useState(
     initialContainerVolumeMl
+  );
+
+
+  const [
+    openValidityDays,
+    setOpenValidityDays,
+  ] = useState(
+    String(initialOpenValidityDays)
   );
 
 
@@ -153,6 +164,10 @@ export default function EditInsulinModal({
       Number(volume);
 
 
+    const numericOpenValidityDays =
+      Number(openValidityDays);
+
+
     if (!cleanName) {
 
       setError(
@@ -193,6 +208,22 @@ export default function EditInsulinModal({
     }
 
 
+    if (
+      !Number.isInteger(
+        numericOpenValidityDays
+      ) ||
+      numericOpenValidityDays < 1 ||
+      numericOpenValidityDays > 180
+    ) {
+
+      setError(
+        "Informe uma validade após aberta entre 1 e 180 dias."
+      );
+
+      return;
+    }
+
+
     setLoading(true);
 
 
@@ -209,6 +240,9 @@ export default function EditInsulinModal({
 
           container_volume_ml:
             numericVolume,
+
+          open_validity_days:
+            numericOpenValidityDays,
 
           active,
         }
@@ -390,7 +424,31 @@ export default function EditInsulinModal({
           </div>
 
 
-          
+          <label>
+
+            Validade após aberta (dias)
+
+            <input
+              type="number"
+              min="1"
+              max="180"
+              step="1"
+              value={
+                openValidityDays
+              }
+              onChange={
+                (event) =>
+                  setOpenValidityDays(
+                    event.target.value
+                  )
+              }
+              required
+            />
+
+          </label>
+
+
+
 
           <div className="insulin-calculation-preview">
 
