@@ -6,8 +6,10 @@ import {
 
 import {
   Activity,
+  AlertTriangle,
   Clock3,
   History,
+  Layers,
   PackagePlus,
   Plus,
   Settings2,
@@ -30,6 +32,9 @@ import DoseHistoryModal
 
 import AddStockModal
   from "../components/stock/AddStockModal";
+
+import ContainersModal
+  from "../components/stock/ContainersModal";
 
 import AddInsulinModal
   from "../components/insulin/AddInsulinModal";
@@ -75,6 +80,7 @@ export default function InsulinsPage() {
   const navigate =
     useNavigate();
 
+
   const [
     user,
     setUser,
@@ -82,6 +88,7 @@ export default function InsulinsPage() {
     useState<User | null>(
       null
     );
+
 
   const [
     insulins,
@@ -91,6 +98,7 @@ export default function InsulinsPage() {
       InsulinWithSummary[]
     >([]);
 
+
   const [
     doseInsulin,
     setDoseInsulin,
@@ -98,6 +106,7 @@ export default function InsulinsPage() {
     useState<Insulin | null>(
       null
     );
+
 
   const [
     historyInsulin,
@@ -107,6 +116,7 @@ export default function InsulinsPage() {
       null
     );
 
+
   const [
     stockInsulin,
     setStockInsulin,
@@ -115,13 +125,26 @@ export default function InsulinsPage() {
       null
     );
 
+
+  const [
+    containersInsulin,
+    setContainersInsulin,
+  ] =
+    useState<Insulin | null>(
+      null
+    );
+
+
   const [
     adjustStockInsulin,
     setAdjustStockInsulin,
   ] =
     useState<
       InsulinWithSummary | null
-    >(null);
+    >(
+      null
+    );
+
 
   const [
     editInsulin,
@@ -131,11 +154,13 @@ export default function InsulinsPage() {
       null
     );
 
+
   const [
     addInsulinOpen,
     setAddInsulinOpen,
   ] =
     useState(false);
+
 
   const [
     showInactive,
@@ -143,11 +168,13 @@ export default function InsulinsPage() {
   ] =
     useState(false);
 
+
   const [
     loading,
     setLoading,
   ] =
     useState(true);
+
 
   const [
     error,
@@ -155,10 +182,12 @@ export default function InsulinsPage() {
   ] =
     useState("");
 
+
   const cachedUserName =
     localStorage.getItem(
       "insulinet_user_name"
     ) || "";
+
 
   const sidebarUserName =
     user?.name ||
@@ -210,6 +239,7 @@ export default function InsulinsPage() {
           Insulin[] =
           await listInsulins();
 
+
         const completeData:
           InsulinWithSummary[] =
           await Promise.all(
@@ -230,6 +260,7 @@ export default function InsulinsPage() {
               }
             )
           );
+
 
         setInsulins(
           completeData
@@ -256,18 +287,22 @@ export default function InsulinsPage() {
 
           setError("");
 
+
           const userData:
             User =
             await getCurrentUser();
+
 
           setUser(
             userData
           );
 
+
           localStorage.setItem(
             "insulinet_user_name",
             userData.name
           );
+
 
           await loadInsulinCards();
 
@@ -328,11 +363,13 @@ export default function InsulinsPage() {
         try {
           setError("");
 
+
           const updatedSummary:
             InsulinSummary =
             await getInsulinSummary(
               insulinId
             );
+
 
           setInsulins(
             (
@@ -357,6 +394,7 @@ export default function InsulinsPage() {
                 }
               )
           );
+
 
           setAdjustStockInsulin(
             (
@@ -423,6 +461,52 @@ export default function InsulinsPage() {
     );
 
 
+  function getStockStatus(
+    level:
+      InsulinWithSummary[
+        "summary"
+      ][
+        "stock_alert_level"
+      ]
+  ) {
+    switch (
+      level
+    ) {
+      case "critical":
+        return {
+          className:
+            "danger",
+          label:
+            "Estoque crítico",
+        };
+
+      case "low":
+        return {
+          className:
+            "warning",
+          label:
+            "Estoque baixo",
+        };
+
+      case "ok":
+        return {
+          className:
+            "success",
+          label:
+            "Estoque OK",
+        };
+
+      default:
+        return {
+          className:
+            "neutral",
+          label:
+            "Sem projeção",
+        };
+    }
+  }
+
+
   function renderInsulinCard(
     item: InsulinWithSummary
   ) {
@@ -431,33 +515,12 @@ export default function InsulinsPage() {
       summary,
     } = item;
 
-    const autonomy =
-      summary
-        .estimated_days_remaining !==
-      null
-        ? Number(
-            summary
-              .estimated_days_remaining
-          )
-        : null;
 
-    const status =
-      autonomy === null
-        ? "neutral"
-        : autonomy < 7
-          ? "danger"
-          : autonomy < 14
-            ? "warning"
-            : "success";
+    const stockStatus =
+      getStockStatus(
+        summary.stock_alert_level
+      );
 
-    const statusLabel =
-      status === "danger"
-        ? "Estoque baixo"
-        : status === "warning"
-          ? "Atenção"
-          : status === "success"
-            ? "Estoque OK"
-            : "Sem projeção";
 
     return (
       <article
@@ -469,13 +532,16 @@ export default function InsulinsPage() {
         <div className="management-card-header">
 
           <div>
+
             <span className="management-label">
               INSULINA
             </span>
 
+
             <h3>
               {insulin.name}
             </h3>
+
 
             <p>
               {Number(
@@ -484,31 +550,53 @@ export default function InsulinsPage() {
               ).toLocaleString(
                 "pt-BR"
               )}
+
               {" "}U/mL
+
               {" · "}
+
               {Number(
                 insulin
                   .container_volume_ml
               ).toLocaleString(
                 "pt-BR"
               )}
+
               {" "}mL
+
+              {" · "}
+
+              {insulin.open_validity_days}
+
+              {" "}
+
+              {insulin.open_validity_days === 1
+                ? "dia"
+                : "dias"}
+
+              {" após aberta"}
             </p>
+
           </div>
 
 
           <div className="management-header-actions">
 
             {insulin.active ? (
+
               <span className="management-active">
                 <span />
                 Ativa
               </span>
+
             ) : (
+
               <span className="management-inactive">
                 Inativa
               </span>
+
             )}
+
 
             <button
               type="button"
@@ -519,11 +607,13 @@ export default function InsulinsPage() {
                 )
               }
             >
+
               <Settings2
                 size={15}
               />
 
               Gerenciar
+
             </button>
 
           </div>
@@ -534,11 +624,14 @@ export default function InsulinsPage() {
         <div className="management-stock">
 
           <div>
+
             <span>
               Estoque disponível
             </span>
 
+
             <div className="management-stock-value">
+
               <strong>
                 {formatUnits(
                   summary
@@ -546,22 +639,85 @@ export default function InsulinsPage() {
                 )}
               </strong>
 
+
               <small>
                 U
               </small>
+
             </div>
+
           </div>
 
 
           <div
             className={
-              `management-status ${status}`
+              `management-status ${stockStatus.className}`
             }
           >
-            {statusLabel}
+
+            {stockStatus.label}
+
           </div>
 
         </div>
+
+
+        {insulin.active &&
+          summary.container_alert_level !==
+            "ok" && (
+
+          <div
+            className={
+              summary.container_alert_level ===
+              "expired"
+                ? "container-alert critical"
+                : "container-alert warning"
+            }
+          >
+
+            <AlertTriangle
+              size={16}
+            />
+
+
+            <span>
+
+              {summary.container_alert_level ===
+              "expired"
+                ? (
+                  <>
+                    Uma caneta/frasco aberto
+                    está vencido. Descarte
+                    antes de aplicar.
+                  </>
+                )
+                : (
+                  <>
+                    Uma caneta/frasco aberto
+                    vence em{" "}
+
+                    <strong>
+                      {
+                        summary
+                          .container_alert_days
+                      }
+                    </strong>
+
+                    {" "}
+
+                    {summary
+                      .container_alert_days ===
+                    1
+                      ? "dia"
+                      : "dias"}.
+                  </>
+                )}
+
+            </span>
+
+          </div>
+
+        )}
 
 
         <div className="management-metrics">
@@ -569,17 +725,23 @@ export default function InsulinsPage() {
           <div className="management-metric">
 
             <div className="management-metric-icon">
+
               <Activity
                 size={17}
               />
+
             </div>
 
+
             <div>
+
               <span>
                 Consumo médio
               </span>
 
+
               <strong>
+
                 {summary
                   .average_daily_consumption_units
                   !== null
@@ -588,24 +750,35 @@ export default function InsulinsPage() {
                         .average_daily_consumption_units
                     )} U/dia`
                   : "—"}
+
               </strong>
+
 
               {summary
                 .history_days_used >
                 0 && (
+
                 <small>
+
                   Baseado em{" "}
+
                   {
                     summary
                       .history_days_used
-                  }{" "}
+                  }
+
+                  {" "}
+
                   {summary
                     .history_days_used ===
                   1
                     ? "dia"
                     : "dias"}
+
                 </small>
+
               )}
+
             </div>
 
           </div>
@@ -614,17 +787,23 @@ export default function InsulinsPage() {
           <div className="management-metric">
 
             <div className="management-metric-icon">
+
               <Clock3
                 size={17}
               />
+
             </div>
 
+
             <div>
+
               <span>
                 Autonomia estimada
               </span>
 
+
               <strong>
+
                 {summary
                   .estimated_days_remaining
                   !== null
@@ -633,11 +812,14 @@ export default function InsulinsPage() {
                         .estimated_days_remaining
                     )} dias`
                   : "—"}
+
               </strong>
+
 
               <small>
                 considerando o consumo atual
               </small>
+
             </div>
 
           </div>
@@ -648,16 +830,21 @@ export default function InsulinsPage() {
         <div className="management-projection">
 
           <div>
+
             <span>
               Previsão de término
             </span>
 
+
             <small>
               Mantendo o consumo médio atual
             </small>
+
           </div>
 
+
           <strong>
+
             {summary
               .estimated_end_date
               ? formatEndDate(
@@ -665,6 +852,7 @@ export default function InsulinsPage() {
                     .estimated_end_date
                 )
               : "Sem dados suficientes"}
+
           </strong>
 
         </div>
@@ -683,11 +871,13 @@ export default function InsulinsPage() {
                 )
               }
             >
+
               <Syringe
                 size={16}
               />
 
               Registrar aplicação
+
             </button>
 
 
@@ -700,15 +890,35 @@ export default function InsulinsPage() {
                 )
               }
             >
+
               <PackagePlus
                 size={16}
               />
 
               Adicionar estoque
+
             </button>
 
 
             <div className="management-minor-actions">
+
+              <button
+                type="button"
+                onClick={() =>
+                  setContainersInsulin(
+                    insulin
+                  )
+                }
+              >
+
+                <Layers
+                  size={15}
+                />
+
+                Ver canetas/frascos
+
+              </button>
+
 
               <button
                 type="button"
@@ -718,11 +928,13 @@ export default function InsulinsPage() {
                   )
                 }
               >
+
                 <SlidersHorizontal
                   size={15}
                 />
 
                 Ajustar estoque
+
               </button>
 
 
@@ -734,11 +946,13 @@ export default function InsulinsPage() {
                   )
                 }
               >
+
                 <History
                   size={15}
                 />
 
                 Ver histórico
+
               </button>
 
             </div>
@@ -748,8 +962,11 @@ export default function InsulinsPage() {
         ) : (
 
           <div className="management-disabled">
-            Insulina inativa. Novas movimentações
-            estão desabilitadas.
+
+            Insulina inativa.
+            Novas movimentações estão
+            desabilitadas.
+
           </div>
 
         )}
@@ -766,6 +983,7 @@ export default function InsulinsPage() {
         undefined
       }
     >
+
       <section className="insulins-page dashboard dashboard-v2">
 
         <section
@@ -777,9 +995,11 @@ export default function InsulinsPage() {
         >
 
           {error && (
+
             <div className="error-message">
               {error}
             </div>
+
           )}
 
 
@@ -791,10 +1011,13 @@ export default function InsulinsPage() {
                 Minhas insulinas
               </h2>
 
+
               <p>
-                Gerencie suas insulinas, estoque,
-                aplicações e histórico em um só lugar.
+                Gerencie suas insulinas,
+                estoque, aplicações e histórico
+                em um só lugar.
               </p>
+
             </div>
 
 
@@ -810,36 +1033,45 @@ export default function InsulinsPage() {
                 )
               }
             >
+
               <Plus
                 size={15}
               />
 
               Adicionar insulina
+
             </button>
 
           </div>
 
 
           {!loading && (
+
             <>
               {insulins.length === 0 ? (
 
                 <div className="empty-card">
 
                   <div className="empty-card-icon">
+
                     <Plus
                       size={22}
                     />
+
                   </div>
+
 
                   <h3>
                     Nenhuma insulina cadastrada
                   </h3>
 
+
                   <p>
-                    Cadastre sua primeira insulina
-                    para começar a acompanhar o estoque.
+                    Cadastre sua primeira
+                    insulina para começar a
+                    acompanhar o estoque.
                   </p>
+
 
                   <button
                     type="button"
@@ -850,11 +1082,13 @@ export default function InsulinsPage() {
                       )
                     }
                   >
+
                     <Plus
                       size={15}
                     />
 
                     Adicionar insulina
+
                   </button>
 
                 </div>
@@ -867,19 +1101,26 @@ export default function InsulinsPage() {
                     <div className="insulin-section-header">
 
                       <div>
+
                         <h3>
                           Insulinas ativas
                         </h3>
 
+
                         <span className="insulin-section-count">
+
                           {
                             activeInsulins.length
                           }
+
                         </span>
+
                       </div>
 
+
                       <p>
-                        Insulinas em acompanhamento atualmente
+                        Insulinas em acompanhamento
+                        atualmente
                       </p>
 
                     </div>
@@ -888,9 +1129,11 @@ export default function InsulinsPage() {
                     {activeInsulins.length > 0 ? (
 
                       <div className="insulin-grid">
+
                         {activeInsulins.map(
                           renderInsulinCard
                         )}
+
                       </div>
 
                     ) : (
@@ -920,17 +1163,24 @@ export default function InsulinsPage() {
                           )
                         }
                       >
+
                         <div>
+
                           <span>
                             Insulinas inativas
                           </span>
 
+
                           <span className="inactive-count">
+
                             {
                               inactiveInsulins.length
                             }
+
                           </span>
+
                         </div>
+
 
                         <span
                           className={
@@ -950,14 +1200,20 @@ export default function InsulinsPage() {
                         <div className="inactive-section-content">
 
                           <p className="inactive-section-description">
-                            Dados e histórico são preservados
-                            mesmo após a desativação.
+
+                            Dados e histórico são
+                            preservados mesmo após
+                            a desativação.
+
                           </p>
 
+
                           <div className="insulin-grid">
+
                             {inactiveInsulins.map(
                               renderInsulinCard
                             )}
+
                           </div>
 
                         </div>
@@ -972,6 +1228,7 @@ export default function InsulinsPage() {
 
               )}
             </>
+
           )}
 
         </section>
@@ -1082,6 +1339,33 @@ export default function InsulinsPage() {
         )}
 
 
+        {containersInsulin && (
+
+          <ContainersModal
+            insulinId={
+              containersInsulin.id
+            }
+
+            insulinName={
+              containersInsulin.name
+            }
+
+            onClose={() =>
+              setContainersInsulin(
+                null
+              )
+            }
+
+            onChanged={() => {
+              void refreshInsulinSummary(
+                containersInsulin.id
+              );
+            }}
+          />
+
+        )}
+
+
         {adjustStockInsulin && (
 
           <AdjustStockModal
@@ -1156,6 +1440,11 @@ export default function InsulinsPage() {
                 .container_volume_ml
             }
 
+            initialOpenValidityDays={
+              editInsulin
+                .open_validity_days
+            }
+
             initialActive={
               editInsulin.active
             }
@@ -1174,6 +1463,7 @@ export default function InsulinsPage() {
         )}
 
       </section>
+
     </AppLayout>
   );
 }
