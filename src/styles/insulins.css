@@ -1,0 +1,569 @@
+.insulins-page {
+  width: 100%;
+}
+
+.insulins-content {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* HERO */
+
+.insulins-page .dashboard-hero {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 30px;
+
+  margin-bottom: 32px;
+}
+
+.insulins-page .dashboard-eyebrow {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #2563eb;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.1em;
+}
+
+.insulins-page .dashboard-hero h2 {
+  margin: 0;
+
+  color: #0f172a;
+
+  font-size: 30px;
+  letter-spacing: -0.03em;
+}
+
+.insulins-page .dashboard-hero p {
+  margin: 8px 0 0;
+
+  color: #64748b;
+
+  font-size: 14px;
+}
+
+.insulins-page
+.add-insulin-main-button {
+  width: auto;
+
+  padding: 0 18px;
+
+  min-height: 42px;
+
+  flex-shrink: 0;
+}
+
+
+/* SECTION */
+
+.insulin-section {
+  display: flex;
+  flex-direction: column;
+
+  gap: 16px;
+}
+
+.insulin-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.insulin-section-header > div {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+}
+
+.insulin-section-header h3 {
+  margin: 0;
+
+  color: #0f172a;
+
+  font-size: 17px;
+}
+
+.insulin-section-header p {
+  margin: 0;
+
+  color: #94a3b8;
+
+  font-size: 12px;
+}
+
+.insulin-section-count {
+  display: grid;
+  place-items: center;
+
+  min-width: 22px;
+  height: 22px;
+
+  padding: 0 6px;
+
+  border-radius: 999px;
+
+  background: #eff6ff;
+  color: #2563eb;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+
+/* GRID */
+
+.insulin-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap: 20px;
+}
+
+
+/* CARD */
+
+.insulin-management-card {
+  padding: 22px;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 4px 18px
+    rgba(15, 23, 42, 0.035);
+}
+
+
+/* HEADER */
+
+.management-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 20px;
+
+  margin-bottom: 18px;
+}
+
+.management-label {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: #94a3b8;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 0.1em;
+}
+
+.management-card-header h3 {
+  margin: 0;
+
+  color: #0f172a;
+
+  font-size: 21px;
+}
+
+.management-card-header p {
+  margin: 4px 0 0;
+
+  color: #94a3b8;
+
+  font-size: 11px;
+}
+
+.management-header-actions {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+}
+
+.management-active {
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+
+  padding: 6px 9px;
+
+  border-radius: 999px;
+
+  background: #ecfdf3;
+  color: #047857;
+
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.management-active > span {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: #10b981;
+}
+
+.management-inactive {
+  padding: 6px 9px;
+
+  border-radius: 999px;
+
+  background: #f1f5f9;
+  color: #64748b;
+
+  font-size: 10px;
+}
+
+.management-settings {
+  min-height: 30px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+
+  padding: 0 10px;
+
+  border: 1px solid #dbe3ef;
+  border-radius: 8px;
+
+  background: white;
+  color: #475569;
+
+  cursor: pointer;
+
+  font-size: 10px;
+}
+
+
+/* ESTOQUE */
+
+.management-stock {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 18px;
+
+  margin-bottom: 12px;
+
+  border: 1px solid #dbeafe;
+  border-radius: 12px;
+
+  background: #f5f9ff;
+}
+
+.management-stock > div > span {
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: #64748b;
+
+  font-size: 11px;
+}
+
+.management-stock-value {
+  display: flex;
+  align-items: baseline;
+
+  gap: 5px;
+}
+
+.management-stock-value strong {
+  color: #0f172a;
+
+  font-size: 31px;
+  line-height: 1;
+}
+
+.management-stock-value small {
+  color: #2563eb;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+
+/* STATUS */
+
+.management-status {
+  padding: 6px 10px;
+
+  border-radius: 999px;
+
+  font-size: 10px;
+  font-weight: 650;
+}
+
+.management-status.success {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.management-status.warning {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.management-status.danger {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.management-status.neutral {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+
+/* MÉTRICAS */
+
+.management-metrics {
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 10px;
+
+  margin-bottom: 12px;
+}
+
+.management-metric {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 10px;
+
+  padding: 13px;
+
+  border: 1px solid #e7ecf3;
+  border-radius: 11px;
+}
+
+.management-metric-icon {
+  width: 31px;
+  height: 31px;
+
+  display: grid;
+  place-items: center;
+
+  flex-shrink: 0;
+
+  border-radius: 8px;
+
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.management-metric span {
+  display: block;
+
+  margin-bottom: 3px;
+
+  color: #64748b;
+
+  font-size: 10px;
+}
+
+.management-metric strong {
+  display: block;
+
+  color: #0f172a;
+
+  font-size: 14px;
+}
+
+.management-metric small {
+  display: block;
+
+  margin-top: 4px;
+
+  color: #94a3b8;
+
+  font-size: 9px;
+}
+
+
+/* PROJEÇÃO */
+
+.management-projection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 12px 14px;
+
+  margin-bottom: 14px;
+
+  border-radius: 10px;
+
+  background: #eff6ff;
+}
+
+.management-projection span {
+  display: block;
+
+  color: #2563eb;
+
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.management-projection small {
+  display: block;
+
+  margin-top: 2px;
+
+  color: #64748b;
+
+  font-size: 9px;
+}
+
+.management-projection strong {
+  color: #1e3a8a;
+
+  font-size: 12px;
+}
+
+
+/* AÇÕES */
+
+.management-actions {
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 9px;
+}
+
+.management-primary,
+.management-secondary {
+  min-height: 41px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  border-radius: 9px;
+
+  cursor: pointer;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.management-primary {
+  border: 1px solid #2563eb;
+
+  background: #2563eb;
+  color: white;
+}
+
+.management-secondary {
+  border: 1px solid #dbe3ef;
+
+  background: white;
+  color: #334155;
+}
+
+.management-minor-actions {
+  grid-column: 1 / -1;
+
+  display: flex;
+  justify-content: center;
+
+  gap: 22px;
+
+  padding-top: 7px;
+}
+
+.management-minor-actions button {
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+
+  padding: 5px;
+
+  border: 0;
+
+  background: transparent;
+  color: #64748b;
+
+  cursor: pointer;
+
+  font-size: 10px;
+}
+
+.management-minor-actions button:hover {
+  color: #2563eb;
+}
+
+
+/* RESPONSIVO */
+
+@media (max-width: 1100px) {
+  .insulin-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .insulins-page .dashboard-hero {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .insulins-page
+  .add-insulin-main-button {
+    width: 100%;
+  }
+
+  .management-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .management-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .management-minor-actions {
+    grid-column: auto;
+
+    flex-direction: column;
+
+    gap: 4px;
+  }
+}
