@@ -11,27 +11,37 @@ label {
 
   font-size: 14px;
   font-weight: 600;
+  color: var(--text-primary);
 }
 
 input {
   width: 100%;
+  min-height: 46px;
 
   padding: 12px 14px;
 
-  border: 1px solid #d7dce5;
-  border-radius: 9px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
 
   outline: none;
 
-  background: white;
+  background: var(--surface);
+  color: var(--text-primary);
+
+  font-size: 15px;
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+input:hover {
+  border-color: var(--border-hover);
 }
 
 input:focus {
-  border-color: #2563eb;
-
-  box-shadow:
-    0 0 0 3px
-    rgba(37, 99, 235, 0.1);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-focus);
 }
 
 .input-unit-wrapper {
@@ -39,7 +49,7 @@ input:focus {
 }
 
 .input-unit-wrapper input {
-  padding-right: 45px;
+  padding-right: 46px;
 }
 
 .input-unit-wrapper span {
@@ -48,10 +58,9 @@ input:focus {
   right: 14px;
   top: 50%;
 
-  transform:
-    translateY(-50%);
+  transform: translateY(-50%);
 
-  color: #667085;
+  color: var(--text-secondary);
 
   font-size: 14px;
   font-weight: 600;
@@ -60,13 +69,13 @@ input:focus {
 .form-group {
   display: flex;
   flex-direction: column;
-
   gap: 8px;
 }
 
 .form-label {
   font-size: 14px;
   font-weight: 600;
+  color: var(--text-primary);
 }
 
 textarea {
@@ -74,31 +83,36 @@ textarea {
 
   padding: 12px 14px;
 
-  border:
-    1px solid #d7dce5;
-
-  border-radius: 9px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
 
   resize: vertical;
 
   outline: none;
 
   font: inherit;
+  color: var(--text-primary);
+  background: var(--surface);
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+textarea:hover {
+  border-color: var(--border-hover);
 }
 
 textarea:focus {
-  border-color: #2563eb;
-
-  box-shadow:
-    0 0 0 3px
-    rgba(37, 99, 235, 0.1);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-focus);
 }
 
 .optional-label {
   margin-left: 5px;
 
-  color: #98a2b3;
+  color: var(--text-tertiary);
 
-  font-size: 11px;
+  font-size: 12.5px;
   font-weight: 400;
 }

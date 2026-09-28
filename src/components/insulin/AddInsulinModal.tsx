@@ -42,6 +42,12 @@ export default function AddInsulinModal({
 
 
   const [
+    openValidityDays,
+    setOpenValidityDays,
+  ] = useState("28");
+
+
+  const [
     error,
     setError,
   ] = useState("");
@@ -116,7 +122,11 @@ export default function AddInsulinModal({
       Number(volume);
 
 
-    
+    const numericOpenValidityDays =
+      Number(openValidityDays);
+
+
+
 
 
     if (!cleanName) {
@@ -165,6 +175,22 @@ export default function AddInsulinModal({
     }
 
 
+    if (
+      !Number.isInteger(
+        numericOpenValidityDays
+      ) ||
+      numericOpenValidityDays < 1 ||
+      numericOpenValidityDays > 180
+    ) {
+
+      setError(
+        "Informe uma validade após aberta entre 1 e 180 dias."
+      );
+
+      return;
+    }
+
+
     setLoading(true);
 
 
@@ -179,6 +205,9 @@ export default function AddInsulinModal({
 
         container_volume_ml:
           numericVolume,
+
+        open_validity_days:
+          numericOpenValidityDays,
       });
 
 
@@ -367,9 +396,42 @@ export default function AddInsulinModal({
           </div>
 
 
-          
-          
-          
+          <label>
+
+            Validade após aberta (dias)
+
+            <input
+              type="number"
+              min="1"
+              max="180"
+              step="1"
+              value={
+                openValidityDays
+              }
+              onChange={
+                (event) =>
+                  setOpenValidityDays(
+                    event.target.value
+                  )
+              }
+              placeholder="Ex.: 28"
+              required
+            />
+
+          </label>
+
+          <div className="form-hint">
+
+            Depois de aberta, a caneta/frasco
+            deixa de ser segura para uso após
+            esse prazo, mesmo com insulina
+            restante. Consulte a bula do
+            fabricante (geralmente entre 28
+            e 56 dias).
+
+          </div>
+
+
 
           <div className="insulin-calculation-preview">
 

@@ -1,208 +1,834 @@
+/* ==========================================================================
+   Layout shell
+   ========================================================================== */
+
 .dashboard {
   min-height: 100vh;
+  background: var(--app-bg);
 }
 
 .dashboard-header {
-  height: 80px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--space-4);
 
-  padding: 0 48px;
+  padding: 16px clamp(20px, 4vw, 40px);
 
-  background: white;
-
-  border-bottom: 1px solid #e9edf3;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
 }
 
-.dashboard-header h1 {
+.dashboard-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+
+  border-radius: var(--radius-md);
+
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  color: #fff;
+
+  box-shadow: 0 6px 16px rgba(2, 132, 199, 0.24);
+}
+
+.brand-copy h1 {
   margin: 0;
-
-  font-size: 20px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
-.dashboard-header p {
-  margin: 3px 0 0;
-
-  color: #667085;
-
-  font-size: 13px;
-}
-
-.dashboard-content {
-  max-width: 1200px;
-
-  margin: 0 auto;
-
-  padding: 40px;
-}
-
-.empty-card {
-  margin-top: 24px;
-
-  padding: 32px;
-
-  background: white;
-
-  border: 1px solid #e7eaf0;
-  border-radius: 14px;
+.brand-copy p {
+  margin: 1px 0 0;
+  font-size: 12.5px;
+  color: var(--text-tertiary);
 }
 
 .header-user {
   display: flex;
   align-items: center;
-  gap: 18px;
-
-  font-size: 14px;
-  font-weight: 600;
+  gap: 14px;
 }
 
-.dashboard-title {
+.header-user-profile {
   display: flex;
   align-items: center;
+  gap: 10px;
+}
+
+.user-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+
+  border-radius: var(--radius-full);
+
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.header-user-profile > div {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+
+.header-user-profile span {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.header-user-profile small {
+  font-size: 11.5px;
+  color: var(--text-tertiary);
+}
+
+.logout-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 9px 14px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+
+  background: var(--surface);
+  color: var(--text-secondary);
+
+  font-size: 13.5px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.logout-button:hover {
+  border-color: var(--color-danger);
+  background: var(--color-danger-soft);
+  color: var(--color-danger-dark);
+}
+
+.dashboard-content {
+  max-width: 1200px;
+  margin: 0 auto;
+
+  padding: clamp(20px, 4vw, 40px);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+/* ==========================================================================
+   Hero / page intro
+   ========================================================================== */
+
+.dashboard-hero {
+  display: flex;
+  align-items: flex-end;
   justify-content: space-between;
-
-  gap: 20px;
-
-  margin-bottom: 28px;
+  flex-wrap: wrap;
+  gap: var(--space-4);
 }
 
-.dashboard-title h2 {
+.dashboard-eyebrow {
+  display: inline-block;
+  margin-bottom: 6px;
+
+  color: var(--color-primary);
+
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.dashboard-hero h2 {
   margin: 0;
-
   font-size: 26px;
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
-.dashboard-title p {
+.dashboard-hero p {
   margin: 6px 0 0;
+  max-width: 46ch;
 
-  color: #667085;
+  color: var(--text-secondary);
+  font-size: 14.5px;
+  line-height: 1.5;
+}
+
+.add-insulin-main-button {
+  width: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   Empty state
+   ========================================================================== */
+
+.empty-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+
+  padding: var(--space-12) var(--space-6);
+
+  border: 1px dashed var(--border-hover);
+  border-radius: var(--radius-lg);
+
+  background: var(--surface);
+}
+
+.empty-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 56px;
+  height: 56px;
+
+  border-radius: var(--radius-full);
+
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+
+  margin-bottom: 4px;
+}
+
+.empty-card h3 {
+  margin: 0;
+  font-size: 18px;
+  color: var(--text-primary);
+}
+
+.empty-card p {
+  margin: 0 0 8px;
+  max-width: 42ch;
+
+  color: var(--text-secondary);
+  font-size: 14.5px;
+}
+
+.empty-card .primary-button {
+  width: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ==========================================================================
+   Insulin sections
+   ========================================================================== */
+
+.insulin-section-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: var(--space-4);
+}
+
+.insulin-section-header > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.insulin-section-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: var(--text-primary);
+}
+
+.insulin-section-header p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 13.5px;
+}
+
+.insulin-section-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 24px;
+  height: 24px;
+  padding: 0 8px;
+
+  border-radius: var(--radius-full);
+
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+
+  font-size: 12.5px;
+  font-weight: 700;
 }
 
 .insulin-grid {
   display: grid;
-
-  grid-template-columns:
-    repeat(
-      auto-fit,
-      minmax(340px, 1fr)
-    );
-
-  gap: 22px;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--space-5);
 }
 
+.inactive-empty-state {
+  padding: var(--space-6);
+
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+
+  color: var(--text-tertiary);
+  font-size: 14px;
+  text-align: center;
+}
+
+/* ==========================================================================
+   Inactive insulins collapsible section
+   ========================================================================== */
+
+.inactive-insulin-section {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.inactive-section-toggle {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: var(--space-4) var(--space-5);
+
+  border: 0;
+  background: transparent;
+  color: var(--text-primary);
+
+  cursor: pointer;
+  text-align: left;
+}
+
+.inactive-section-toggle > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  font-size: 14.5px;
+  font-weight: 600;
+}
+
+.inactive-section-toggle:hover {
+  background: var(--surface-soft);
+}
+
+.inactive-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 22px;
+  height: 22px;
+  padding: 0 7px;
+
+  border-radius: var(--radius-full);
+
+  background: var(--surface-soft);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.inactive-chevron {
+  display: inline-flex;
+  color: var(--text-tertiary);
+  font-size: 12px;
+  transition: transform 0.2s ease;
+}
+
+.inactive-chevron.open {
+  transform: rotate(180deg);
+}
+
+.inactive-section-content {
+  padding: 0 var(--space-5) var(--space-5);
+  border-top: 1px solid var(--border);
+}
+
+.inactive-section-description {
+  margin: var(--space-4) 0 var(--space-4);
+  color: var(--text-secondary);
+  font-size: 13.5px;
+}
+
+/* ==========================================================================
+   Insulin card
+   ========================================================================== */
+
 .insulin-card {
-  background: white;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
 
-  border: 1px solid #e7eaf0;
-  border-radius: 16px;
+  padding: var(--space-5);
 
-  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
 
-  box-shadow:
-    0 6px 20px
-    rgba(20, 30, 55, 0.04);
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.insulin-card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+
+.insulin-card-inactive {
+  background: var(--surface-soft);
+  opacity: 0.85;
+}
+
+.insulin-card-inactive:hover {
+  transform: none;
+  box-shadow: var(--shadow-card);
 }
 
 .insulin-card-header {
   display: flex;
-  justify-content: space-between;
   align-items: flex-start;
-
-  margin-bottom: 24px;
+  justify-content: space-between;
+  gap: var(--space-3);
 }
 
-.insulin-card-header h3 {
-  .insulins-page {
-  width: 100%;
-}
-
-.insulins-content {
-  max-width: none;
-
-  margin: 0;
-
-  padding: 0;
-}
-
-.insulins-page .dashboard-hero {
-  margin-bottom: 34px;
-}
-
-.insulins-page .insulin-grid {
-  grid-template-columns:
-    repeat(
-      2,
-      minmax(0, 1fr)
-    );
-}
-
-@media (max-width: 1200px) {
-  .insulins-page .insulin-grid {
-    grid-template-columns: 1fr;
-  }
-}
-}
-
-.sidebar-user {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  padding: 8px;
-
-  border-radius: 10px;
-
-  color: inherit;
-  text-decoration: none;
-
-  transition:
-    background 0.15s ease;
-}
-
-.sidebar-user:hover {
-  background:
-    rgba(255, 255, 255, 0.06);
-}
-
-.sidebar-user-info {
+.insulin-card-title {
   display: flex;
   flex-direction: column;
+  gap: 3px;
+  min-width: 0;
 }
 
-.sidebar-user-info strong {
-  font-size: 13px;
-}
-
-.sidebar-user-info span {
-  margin-top: 2px;
-  color: #b8c7df;
+.insulin-label {
+  color: var(--text-tertiary);
   font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
 }
 
-.sidebar-logo {
-  width: 42px;
-  height: 42px;
+.insulin-card-title h3 {
+  margin: 0;
+  font-size: 17px;
+  color: var(--text-primary);
 
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.insulin-card-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.active-badge,
+.inactive-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+
+  padding: 4px 9px;
+
+  border-radius: var(--radius-full);
+
+  font-size: 11.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.active-badge {
+  background: var(--color-success-soft);
+  color: var(--color-success-dark);
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-success);
+}
+
+.inactive-badge {
+  background: var(--surface-soft);
+  color: var(--text-tertiary);
+  border: 1px solid var(--border);
+}
+
+.manage-insulin-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 6px 10px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+
+  background: var(--surface);
+  color: var(--text-secondary);
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.manage-insulin-button:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: var(--color-primary-soft);
+}
+
+.stock-highlight {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: var(--space-4);
+
+  border-radius: var(--radius-md);
+
+  background: var(--color-primary-soft);
+}
+
+.stock-label {
+  display: block;
+  margin-bottom: 4px;
+
+  color: var(--color-primary-dark);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.stock-value {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+
+  color: var(--text-primary);
+}
+
+.stock-value strong {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.stock-value span {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.stock-highlight-low {
+  background: var(--color-warning-soft);
+}
+
+.stock-highlight-low .stock-label {
+  color: #92400e;
+}
+
+.stock-highlight-critical {
+  background: var(--color-danger-soft);
+}
+
+.stock-highlight-critical .stock-label {
+  color: var(--color-danger-dark);
+}
+
+.stock-available-badge {
+  padding: 5px 10px;
+
+  border-radius: var(--radius-full);
+
+  background: var(--color-success-soft);
+  color: var(--color-success-dark);
+
+  font-size: 11.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.stock-available-badge.stock-alert-low {
+  background: var(--color-warning-soft);
+  color: #92400e;
+}
+
+.stock-available-badge.stock-alert-critical {
+  background: var(--color-danger-soft);
+  color: var(--color-danger-dark);
+}
+
+.container-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+
+  padding: var(--space-3) var(--space-4);
+
+  border-radius: var(--radius-md);
+
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.container-alert svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.container-alert.warning {
+  background: var(--color-warning-soft);
+  color: #92400e;
+}
+
+.container-alert.critical {
+  background: var(--color-danger-soft);
+  color: var(--color-danger-dark);
+}
+
+.metrics-grid {
   display: grid;
-  place-items: center;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
 
+.metric {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+
+  padding: var(--space-3);
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+
+  background: var(--surface-soft);
+}
+
+.metric-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 30px;
+  height: 30px;
   flex-shrink: 0;
 
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
 
-  background: linear-gradient(
-    135deg,
-    #2563eb,
-    #1d4ed8
-  );
-
-  color: white;
+  background: var(--color-secondary-soft);
+  color: var(--color-secondary);
 }
 
-.sidebar-logo svg {
+.metric-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.metric-content > span {
+  color: var(--text-tertiary);
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.metric-content > strong {
+  color: var(--text-primary);
+  font-size: 14.5px;
+  font-weight: 700;
+}
+
+.metric-source {
+  color: var(--text-tertiary);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.projection-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+
+  padding: var(--space-3) var(--space-4);
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+
+  background: var(--surface-soft);
+}
+
+.projection-label {
   display: block;
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.projection-info small {
+  color: var(--text-tertiary);
+  font-size: 11.5px;
+}
+
+.projection-info > strong {
+  color: var(--color-primary-dark);
+  font-size: 14.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.projection-warning {
+  padding: var(--space-3) var(--space-4);
+
+  border: 1px dashed var(--color-warning);
+  border-radius: var(--radius-md);
+
+  background: var(--color-warning-soft);
+  color: #92400e;
+
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.insulin-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.insulin-detail-chip {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+
+  padding: 6px 12px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+
+  background: var(--surface);
+}
+
+.insulin-detail-chip span {
+  color: var(--text-tertiary);
+  font-size: 10.5px;
+  font-weight: 600;
+}
+
+.insulin-detail-chip strong {
+  color: var(--text-primary);
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.card-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.card-actions .secondary-button,
+.card-actions .primary-button {
+  padding: 10px 12px;
+  min-height: 42px;
+
+  font-size: 13.5px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.card-primary-action,
+.full-card-action {
+  grid-column: 1 / -1;
+}
+
+.inactive-card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--border);
+}
+
+.inactive-card-message {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.inactive-card-message strong {
+  color: var(--text-primary);
+  font-size: 13.5px;
+}
+
+.inactive-card-message span {
+  color: var(--text-tertiary);
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+
+.inactive-card-actions .secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 /* ==========================================================================
    Dashboard analytics
@@ -255,8 +881,8 @@
 
   border-radius: 10px;
 
-  background: var(--primary-soft);
-  color: var(--primary);
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
 }
 
 .dashboard-metric-value {

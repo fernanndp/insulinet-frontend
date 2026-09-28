@@ -83,6 +83,26 @@ function getStatusClass(
   }
 }
 
+function getExpirationLabel(
+  container: InsulinContainer
+) {
+  if (container.expiration_status === "expired") {
+    return "Vencida, descarte";
+  }
+
+  if (container.expiration_status === "expiring_soon") {
+    const days = container.days_until_expiration ?? 0;
+    return `Vence em ${days} ${days === 1 ? "dia" : "dias"}`;
+  }
+
+  if (container.expiration_status === "ok") {
+    const days = container.days_until_expiration ?? 0;
+    return `Válida por mais ${days} ${days === 1 ? "dia" : "dias"}`;
+  }
+
+  return null;
+}
+
 export default function ContainersModal({
   insulinId,
   insulinName,
@@ -225,6 +245,16 @@ export default function ContainersModal({
             >
               {getStatusLabel(container.status)}
             </span>
+
+            {container.expiration_status !== "not_applicable" && (
+              <span
+                className={
+                  `container-expiration-badge container-expiration-${container.expiration_status}`
+                }
+              >
+                {getExpirationLabel(container)}
+              </span>
+            )}
           </div>
 
           <div className="container-item-amount">

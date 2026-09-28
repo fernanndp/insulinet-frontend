@@ -8,6 +8,7 @@ import {
 
 import {
   Activity,
+  AlertTriangle,
   Clock3,
   History,
   Layers,
@@ -707,6 +708,20 @@ const availableProjections =
   
   
 
+  function stockAlertLabel(
+    level: InsulinWithSummary["summary"]["stock_alert_level"]
+  ) {
+    if (level === "critical") {
+      return "Estoque crítico";
+    }
+
+    if (level === "low") {
+      return "Estoque baixo";
+    }
+
+    return "Disponível";
+  }
+
   function renderInsulinCard(
     item: InsulinWithSummary
   ) {
@@ -806,7 +821,11 @@ const availableProjections =
         
         
 
-        <div className="stock-highlight">
+        <div
+          className={
+            `stock-highlight stock-highlight-${summary.stock_alert_level}`
+          }
+        >
 
           <div>
 
@@ -840,15 +859,50 @@ const availableProjections =
 
           {insulin.active && (
 
-            <div className="stock-available-badge">
+            <div
+              className={
+                `stock-available-badge stock-alert-${summary.stock_alert_level}`
+              }
+            >
 
-              Disponível
+              {stockAlertLabel(
+                summary.stock_alert_level
+              )}
 
             </div>
 
           )}
 
         </div>
+
+
+        {insulin.active &&
+          summary.container_alert_level !==
+            "ok" && (
+
+          <div
+            className={
+              summary.container_alert_level ===
+              "expired"
+                ? "container-alert critical"
+                : "container-alert warning"
+            }
+          >
+
+            <AlertTriangle size={15} />
+
+            <span>
+
+              {summary.container_alert_level ===
+              "expired"
+                ? "Uma caneta/frasco aberto está vencido. Descarte antes de aplicar."
+                : `Uma caneta/frasco aberto vence em ${summary.container_alert_days} ${summary.container_alert_days === 1 ? "dia" : "dias"}.`}
+
+            </span>
+
+          </div>
+
+        )}
 
 
         
@@ -2079,6 +2133,11 @@ const availableProjections =
           initialContainerVolumeMl={
             editInsulin
               .container_volume_ml
+          }
+
+          initialOpenValidityDays={
+            editInsulin
+              .open_validity_days
           }
 
           initialActive={
