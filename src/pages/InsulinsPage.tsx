@@ -155,7 +155,7 @@ function getExpirationMessage(
         "warning",
 
       text:
-        `${units} pode não ser consumida antes do vencimento em ${date}.`,
+      `${units} vencem em ${date}. No consumo atual, parte desse estoque pode restar até o vencimento.`,
     };
   }
 
