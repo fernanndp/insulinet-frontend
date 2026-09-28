@@ -76,6 +76,135 @@ import {
 } from "../utils/formatters";
 
 
+function formatExpirationDate(
+  value: string
+) {
+  const [
+    year,
+    month,
+    day,
+  ] =
+    value.split("-");
+
+  if (
+    !year ||
+    !month ||
+    !day
+  ) {
+    return value;
+  }
+
+  return (
+    `${day}/${month}/${year}`
+  );
+}
+
+
+function getExpirationMessage(
+  summary:
+    InsulinSummary
+) {
+  if (
+    !summary
+      .next_expiration_date
+  ) {
+    return null;
+  }
+
+
+  const date =
+    formatExpirationDate(
+      summary
+        .next_expiration_date
+    );
+
+
+  const units =
+    summary
+      .expiring_stock_units !==
+    null
+      ? `${formatUnits(
+          summary
+            .expiring_stock_units
+        )} U`
+      : "Parte do estoque";
+
+
+  if (
+    summary
+      .expiration_status ===
+    "EXPIRED"
+  ) {
+    return {
+      type:
+        "critical",
+
+      text:
+        `${units} está com vencimento expirado desde ${date}.`,
+    };
+  }
+
+
+  if (
+    summary
+      .expiration_status ===
+    "AT_RISK"
+  ) {
+    return {
+      type:
+        "warning",
+
+      text:
+        `${units} pode não ser consumida antes do vencimento em ${date}.`,
+    };
+  }
+
+
+  if (
+    summary
+      .expiration_status ===
+    "SAME_DAY"
+  ) {
+    return {
+      type:
+        "warning",
+
+      text:
+        `${units} tem consumo estimado até o mesmo dia do vencimento (${date}).`,
+    };
+  }
+
+
+  if (
+    summary
+      .expiration_status ===
+      "NO_PROJECTION" &&
+    summary
+      .days_until_expiration !==
+      null &&
+    summary
+      .days_until_expiration <=
+      30
+  ) {
+    return {
+      type:
+        "warning",
+
+      text:
+        `${units} vence em ${summary.days_until_expiration} ${
+          summary.days_until_expiration ===
+          1
+            ? "dia"
+            : "dias"
+        } (${date}).`,
+    };
+  }
+
+
+  return null;
+}
+
+
 export default function InsulinsPage() {
   const navigate =
     useNavigate();
@@ -309,12 +438,14 @@ export default function InsulinsPage() {
         } catch (
           err
         ) {
+
           handleApiError(
             err,
             "Não foi possível carregar suas insulinas."
           );
 
         } finally {
+
           if (
             showFullLoading
           ) {
@@ -322,6 +453,7 @@ export default function InsulinsPage() {
               false
             );
           }
+
         }
       },
       [
@@ -335,17 +467,23 @@ export default function InsulinsPage() {
     useCallback(
       async () => {
         try {
-          setError("");
+
+          setError(
+            ""
+          );
+
 
           await loadInsulinCards();
 
         } catch (
           err
         ) {
+
           handleApiError(
             err,
             "Não foi possível atualizar as insulinas."
           );
+
         }
       },
       [
@@ -361,7 +499,10 @@ export default function InsulinsPage() {
         insulinId: number
       ) => {
         try {
-          setError("");
+
+          setError(
+            ""
+          );
 
 
           const updatedSummary:
@@ -379,6 +520,7 @@ export default function InsulinsPage() {
                 (
                   item
                 ) => {
+
                   if (
                     item.insulin.id !==
                     insulinId
@@ -386,8 +528,10 @@ export default function InsulinsPage() {
                     return item;
                   }
 
+
                   return {
                     ...item,
+
                     summary:
                       updatedSummary,
                   };
@@ -400,6 +544,7 @@ export default function InsulinsPage() {
             (
               current
             ) => {
+
               if (
                 !current ||
                 current.insulin.id !==
@@ -408,8 +553,10 @@ export default function InsulinsPage() {
                 return current;
               }
 
+
               return {
                 ...current,
+
                 summary:
                   updatedSummary,
               };
@@ -419,10 +566,12 @@ export default function InsulinsPage() {
         } catch (
           err
         ) {
+
           handleApiError(
             err,
             "Não foi possível atualizar a insulina."
           );
+
         }
       },
       [
@@ -433,9 +582,11 @@ export default function InsulinsPage() {
 
   useEffect(
     () => {
+
       void loadDashboard(
         true
       );
+
     },
     [
       loadDashboard,
@@ -469,37 +620,46 @@ export default function InsulinsPage() {
         "stock_alert_level"
       ]
   ) {
+
     switch (
       level
     ) {
+
       case "critical":
         return {
           className:
             "danger",
+
           label:
             "Estoque crítico",
         };
+
 
       case "low":
         return {
           className:
             "warning",
+
           label:
             "Estoque baixo",
         };
+
 
       case "ok":
         return {
           className:
             "success",
+
           label:
             "Estoque OK",
         };
+
 
       default:
         return {
           className:
             "neutral",
+
           label:
             "Sem projeção",
         };
@@ -508,17 +668,27 @@ export default function InsulinsPage() {
 
 
   function renderInsulinCard(
-    item: InsulinWithSummary
+    item:
+      InsulinWithSummary
   ) {
+
     const {
       insulin,
       summary,
-    } = item;
+    } =
+      item;
 
 
     const stockStatus =
       getStockStatus(
-        summary.stock_alert_level
+        summary
+          .stock_alert_level
+      );
+
+
+    const expirationAlert =
+      getExpirationMessage(
+        summary
       );
 
 
@@ -529,6 +699,7 @@ export default function InsulinsPage() {
         }
         className="insulin-management-card"
       >
+
         <div className="management-card-header">
 
           <div>
@@ -544,6 +715,7 @@ export default function InsulinsPage() {
 
 
             <p>
+
               {Number(
                 insulin
                   .concentration_units_per_ml
@@ -566,15 +738,21 @@ export default function InsulinsPage() {
 
               {" · "}
 
-              {insulin.open_validity_days}
+              {
+                insulin
+                  .open_validity_days
+              }
 
               {" "}
 
-              {insulin.open_validity_days === 1
+              {insulin
+                .open_validity_days ===
+              1
                 ? "dia"
                 : "dias"}
 
               {" após aberta"}
+
             </p>
 
           </div>
@@ -585,8 +763,11 @@ export default function InsulinsPage() {
             {insulin.active ? (
 
               <span className="management-active">
+
                 <span />
+
                 Ativa
+
               </span>
 
             ) : (
@@ -633,10 +814,12 @@ export default function InsulinsPage() {
             <div className="management-stock-value">
 
               <strong>
+
                 {formatUnits(
                   summary
                     .current_stock_units
                 )}
+
               </strong>
 
 
@@ -655,7 +838,10 @@ export default function InsulinsPage() {
             }
           >
 
-            {stockStatus.label}
+            {
+              stockStatus
+                .label
+            }
 
           </div>
 
@@ -663,12 +849,14 @@ export default function InsulinsPage() {
 
 
         {insulin.active &&
-          summary.container_alert_level !==
+          summary
+            .container_alert_level !==
             "ok" && (
 
           <div
             className={
-              summary.container_alert_level ===
+              summary
+                .container_alert_level ===
               "expired"
                 ? "container-alert critical"
                 : "container-alert warning"
@@ -682,25 +870,29 @@ export default function InsulinsPage() {
 
             <span>
 
-              {summary.container_alert_level ===
+              {summary
+                .container_alert_level ===
               "expired"
                 ? (
                   <>
-                    Uma caneta/frasco aberto
-                    está vencido. Descarte
-                    antes de aplicar.
+                    Uma caneta/frasco
+                    aberto está vencido.
+                    Descarte antes de
+                    aplicar.
                   </>
                 )
                 : (
                   <>
-                    Uma caneta/frasco aberto
-                    vence em{" "}
+                    Uma caneta/frasco
+                    aberto vence em{" "}
 
                     <strong>
+
                       {
                         summary
                           .container_alert_days
                       }
+
                     </strong>
 
                     {" "}
@@ -710,8 +902,38 @@ export default function InsulinsPage() {
                     1
                       ? "dia"
                       : "dias"}.
+
                   </>
                 )}
+
+            </span>
+
+          </div>
+
+        )}
+
+
+        {expirationAlert && (
+
+          <div
+            className={
+              expirationAlert.type ===
+              "critical"
+                ? "container-alert critical"
+                : "container-alert warning"
+            }
+          >
+
+            <AlertTriangle
+              size={16}
+            />
+
+
+            <span>
+
+              {
+                expirationAlert.text
+              }
 
             </span>
 
@@ -1048,7 +1270,8 @@ export default function InsulinsPage() {
           {!loading && (
 
             <>
-              {insulins.length === 0 ? (
+              {insulins.length ===
+              0 ? (
 
                 <div className="empty-card">
 
@@ -1068,8 +1291,8 @@ export default function InsulinsPage() {
 
                   <p>
                     Cadastre sua primeira
-                    insulina para começar a
-                    acompanhar o estoque.
+                    insulina para começar
+                    a acompanhar o estoque.
                   </p>
 
 
@@ -1126,7 +1349,8 @@ export default function InsulinsPage() {
                     </div>
 
 
-                    {activeInsulins.length > 0 ? (
+                    {activeInsulins.length >
+                    0 ? (
 
                       <div className="insulin-grid">
 
@@ -1139,7 +1363,9 @@ export default function InsulinsPage() {
                     ) : (
 
                       <div className="inactive-empty-state">
+
                         Nenhuma insulina ativa.
+
                       </div>
 
                     )}
@@ -1147,7 +1373,8 @@ export default function InsulinsPage() {
                   </section>
 
 
-                  {inactiveInsulins.length > 0 && (
+                  {inactiveInsulins.length >
+                    0 && (
 
                     <section className="inactive-insulin-section">
 
@@ -1189,7 +1416,9 @@ export default function InsulinsPage() {
                               : "inactive-chevron"
                           }
                         >
+
                           ▼
+
                         </span>
 
                       </button>
@@ -1201,9 +1430,9 @@ export default function InsulinsPage() {
 
                           <p className="inactive-section-description">
 
-                            Dados e histórico são
-                            preservados mesmo após
-                            a desativação.
+                            Dados e histórico
+                            são preservados mesmo
+                            após a desativação.
 
                           </p>
 
@@ -1252,9 +1481,11 @@ export default function InsulinsPage() {
             }
 
             onSuccess={() => {
+
               void refreshInsulinSummary(
                 doseInsulin.id
               );
+
             }}
           />
 
@@ -1293,9 +1524,11 @@ export default function InsulinsPage() {
             }
 
             onChanged={() => {
+
               void refreshInsulinSummary(
                 historyInsulin.id
               );
+
             }}
           />
 
@@ -1330,9 +1563,11 @@ export default function InsulinsPage() {
             }
 
             onSuccess={() => {
+
               void refreshInsulinSummary(
                 stockInsulin.id
               );
+
             }}
           />
 
@@ -1350,6 +1585,11 @@ export default function InsulinsPage() {
               containersInsulin.name
             }
 
+            openValidityDays={
+              containersInsulin
+                .open_validity_days
+            }
+
             onClose={() =>
               setContainersInsulin(
                 null
@@ -1357,9 +1597,11 @@ export default function InsulinsPage() {
             }
 
             onChanged={() => {
+
               void refreshInsulinSummary(
                 containersInsulin.id
               );
+
             }}
           />
 
@@ -1392,10 +1634,12 @@ export default function InsulinsPage() {
             }
 
             onSuccess={() => {
+
               void refreshInsulinSummary(
                 adjustStockInsulin
                   .insulin.id
               );
+
             }}
           />
 
@@ -1412,7 +1656,9 @@ export default function InsulinsPage() {
             }
 
             onSuccess={() => {
+
               void refreshInsulinList();
+
             }}
           />
 
@@ -1456,7 +1702,9 @@ export default function InsulinsPage() {
             }
 
             onSuccess={() => {
+
               void refreshInsulinList();
+
             }}
           />
 

@@ -3,37 +3,62 @@ import {
   authHeaders,
 } from "./api";
 
+
 export async function addStock(
   insulinId: number,
-  containers: number
+  containers: number,
+  expirationDate: string | null
 ): Promise<void> {
-  await apiRequest(`/api/insulins/${insulinId}/stock`, {
-    method: "POST",
-    headers: {
-      ...authHeaders(),
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ containers }),
-  });
+  await apiRequest(
+    `/api/insulins/${insulinId}/stock`,
+    {
+      method: "POST",
+
+      headers: {
+        ...authHeaders(),
+
+        "Content-Type":
+          "application/json",
+      },
+
+      body: JSON.stringify({
+        containers,
+
+        expiration_date:
+          expirationDate,
+      }),
+    }
+  );
 }
+
 
 export async function adjustStock(
   insulinId: number,
   actualStockUnits: number,
   notes: string
 ): Promise<void> {
-  await apiRequest(`/api/insulins/${insulinId}/adjustments`, {
-    method: "POST",
-    headers: {
-      ...authHeaders(),
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      actual_stock_units: actualStockUnits,
-      notes,
-    }),
-  });
+  await apiRequest(
+    `/api/insulins/${insulinId}/adjustments`,
+    {
+      method: "POST",
+
+      headers: {
+        ...authHeaders(),
+
+        "Content-Type":
+          "application/json",
+      },
+
+      body: JSON.stringify({
+        actual_stock_units:
+          actualStockUnits,
+
+        notes,
+      }),
+    }
+  );
 }
+
 
 export async function updateStockEntry(
   insulinId: number,
@@ -43,12 +68,20 @@ export async function updateStockEntry(
   await apiRequest(
     `/api/insulins/${insulinId}/stock/${movementId}`,
     {
-      method: "PATCH",
+      method:
+        "PATCH",
+
       headers: {
         ...authHeaders(),
-        "Content-Type": "application/json",
+
+        "Content-Type":
+          "application/json",
       },
-      body: JSON.stringify({ units }),
+
+      body:
+        JSON.stringify({
+          units,
+        }),
     }
   );
 }

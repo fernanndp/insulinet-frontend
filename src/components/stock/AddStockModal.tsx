@@ -50,6 +50,13 @@ export default function AddStockModal({
 
 
   const [
+    expirationDate,
+    setExpirationDate,
+  ] =
+    useState("");
+
+
+  const [
     error,
     setError,
   ] =
@@ -63,16 +70,9 @@ export default function AddStockModal({
     useState(false);
 
 
-  
-
-
-
-
-
   const unitsPerContainer =
     useMemo(
       () => {
-
         return (
           Number(
             concentrationUnitsPerMl
@@ -81,7 +81,6 @@ export default function AddStockModal({
             containerVolumeMl
           )
         );
-
       },
       [
         concentrationUnitsPerMl,
@@ -90,18 +89,13 @@ export default function AddStockModal({
     );
 
 
-  
-
-
   const totalUnits =
     useMemo(
       () => {
-
         const quantity =
           Number(
             containers
           );
-
 
         if (
           Number.isNaN(
@@ -112,12 +106,10 @@ export default function AddStockModal({
           return 0;
         }
 
-
         return (
           quantity *
           unitsPerContainer
         );
-
       },
       [
         containers,
@@ -146,16 +138,45 @@ export default function AddStockModal({
       !Number.isInteger(
         numericContainers
       ) ||
-      numericContainers <=
-        0
+      numericContainers <= 0
     ) {
-
       setError(
         "Informe uma quantidade inteira de recipientes maior que zero."
       );
 
       return;
+    }
 
+
+    if (
+      expirationDate
+    ) {
+      const today =
+        new Date();
+
+      today.setHours(
+        0,
+        0,
+        0,
+        0
+      );
+
+
+      const selectedDate =
+        new Date(
+          `${expirationDate}T00:00:00`
+        );
+
+
+      if (
+        selectedDate < today
+      ) {
+        setError(
+          "A data de vencimento informada já passou."
+        );
+
+        return;
+      }
     }
 
 
@@ -168,13 +189,10 @@ export default function AddStockModal({
 
       await addStock(
         insulinId,
-        numericContainers
+        numericContainers,
+        expirationDate ||
+          null
       );
-
-
-      
-
-
 
 
       onSuccess();
@@ -198,7 +216,6 @@ export default function AddStockModal({
       );
 
     }
-
   }
 
 
@@ -219,9 +236,6 @@ export default function AddStockModal({
             event.stopPropagation()
         }
       >
-
-
-        
 
         <div className="modal-header">
 
@@ -244,8 +258,11 @@ export default function AddStockModal({
             onClick={
               onClose
             }
+            aria-label="Fechar"
           >
+
             ×
+
           </button>
 
         </div>
@@ -257,11 +274,7 @@ export default function AddStockModal({
           }
         >
 
-
-          
-
           <div className="stock-product-info">
-
 
             <div>
 
@@ -331,8 +344,6 @@ export default function AddStockModal({
           </div>
 
 
-          
-
           <label>
 
             Quantos recipientes
@@ -363,16 +374,44 @@ export default function AddStockModal({
           </label>
 
 
-          
+          <label>
 
-          {totalUnits >
-            0 && (
+            Vencimento da embalagem
+
+            <input
+              type="date"
+              value={
+                expirationDate
+              }
+              onChange={
+                (
+                  event
+                ) =>
+                  setExpirationDate(
+                    event
+                      .target
+                      .value
+                  )
+              }
+            />
+
+            <small className="form-hint">
+
+              Opcional. Informe a data
+              impressa na caixa ou embalagem
+              das canetas/frascos.
+
+            </small>
+
+          </label>
+
+
+          {totalUnits > 0 && (
 
             <div className="stock-preview">
 
               <span>
-                Será adicionado ao
-                estoque
+                Será adicionado ao estoque
               </span>
 
 
@@ -403,8 +442,7 @@ export default function AddStockModal({
                 recipiente
                 {Number(
                   containers
-                ) !==
-                1
+                ) !== 1
                   ? "s"
                   : ""}
 
@@ -423,23 +461,40 @@ export default function AddStockModal({
 
               </small>
 
+
+              {expirationDate && (
+
+                <small>
+
+                  Vencimento da embalagem:{" "}
+
+                  {new Intl.DateTimeFormat(
+                    "pt-BR"
+                  ).format(
+                    new Date(
+                      `${expirationDate}T12:00:00`
+                    )
+                  )}
+
+                </small>
+
+              )}
+
             </div>
 
           )}
 
-
-          
 
           {error && (
 
             <div className="error-message">
+
               {error}
+
             </div>
 
           )}
 
-
-          
 
           <div className="modal-actions">
 
@@ -453,7 +508,9 @@ export default function AddStockModal({
                 loading
               }
             >
+
               Cancelar
+
             </button>
 
 
