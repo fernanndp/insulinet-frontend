@@ -268,3 +268,75 @@
 .auth-card .success-message {
   font-size: 13.5px;
 }
+.password-guidance {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  margin-top: -3px;
+  padding: 13px 14px;
+
+  border: 1px solid #dbeafe;
+  border-radius: 10px;
+
+  background: #f8fbff;
+
+  color: #475569;
+}
+
+.password-guidance-header {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  color: #1e40af;
+}
+
+.password-guidance-header strong {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.password-guidance-header svg {
+  color: #2563eb;
+}
+
+.password-guidance > p {
+  margin: 0 0 2px;
+
+  color: #64748b;
+
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.password-rule {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  color: #64748b;
+
+  font-size: 10px;
+}
+
+.password-rule svg {
+  color: #94a3b8;
+}
+
+.password-rule.valid {
+  color: #15803d;
+}
+
+.password-rule.valid svg {
+  color: #16a34a;
+}
+
+.password-tip {
+  padding-left: 21px;
+
+  color: #64748b;
+
+  font-size: 10px;
+  line-height: 1.45;
+}

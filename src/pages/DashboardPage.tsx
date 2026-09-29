@@ -1,3 +1,5 @@
+import MetricCard from "../components/dashboard/MetricCard";
+
 import {
   useCallback,
   useEffect,
@@ -572,7 +574,136 @@ export default function DashboardPage() {
         !item.insulin.active
     );
 
+  const totalStockUnits =
+  activeInsulins.reduce(
+    (
+      total,
+      item
+    ) =>
+      total +
+      Number(
+        item.summary.current_stock_units
+      ),
+    0
+  );
 
+
+const hasConsumptionData =
+  activeInsulins.some(
+    (
+      item
+    ) =>
+      item.summary
+        .average_daily_consumption_units !==
+      null
+  );
+
+
+const totalAverageDailyConsumption =
+  activeInsulins.reduce(
+    (
+      total,
+      item
+    ) => {
+
+      const value =
+        item.summary
+          .average_daily_consumption_units;
+
+      return (
+        total +
+        (
+          value !== null
+            ? Number(value)
+            : 0
+        )
+      );
+
+    },
+    0
+  );
+
+
+const insulinWithLowestAutonomy =
+  activeInsulins.reduce<
+    InsulinWithSummary | null
+  >(
+    (
+      lowest,
+      current
+    ) => {
+
+      const currentDays =
+        current.summary
+          .estimated_days_remaining;
+
+      if (
+        currentDays === null
+      ) {
+
+        return lowest;
+
+      }
+
+
+      const currentValue =
+        Number(currentDays);
+
+
+      if (
+        Number.isNaN(
+          currentValue
+        )
+      ) {
+
+        return lowest;
+
+      }
+
+
+      if (
+        lowest === null
+      ) {
+
+        return current;
+
+      }
+
+
+      const lowestDays =
+        lowest.summary
+          .estimated_days_remaining;
+
+
+      if (
+        lowestDays === null
+      ) {
+
+        return current;
+
+      }
+
+
+      return (
+        currentValue <
+        Number(lowestDays)
+          ? current
+          : lowest
+      );
+
+    },
+    null
+  );
+
+
+const availableProjections =
+  activeInsulins.filter(
+    (
+      item
+    ) =>
+      item.summary
+        .projection_available
+  ).length;
   
   
   
@@ -1457,10 +1588,83 @@ export default function DashboardPage() {
 
         </div>
 
+      {insulins.length > 0 && (
 
-        
-        
-        
+      <section
+        className="dashboard-analytics-grid"
+        aria-label="Resumo do acompanhamento"
+      >
+
+        <MetricCard
+          title="Estoque atual"
+          value={`${formatUnits(
+            String(totalStockUnits)
+          )} U`}
+          description={
+            activeInsulins.length === 1
+              ? "1 insulina ativa"
+              : `${activeInsulins.length} insulinas ativas`
+          }
+          icon={Layers}
+        />
+
+
+        <MetricCard
+          title="Consumo médio"
+          value={
+            hasConsumptionData
+              ? `${formatUnits(
+                  String(
+                    totalAverageDailyConsumption
+                  )
+                )} U/dia`
+              : "—"
+          }
+          description="Média diária das insulinas ativas"
+          icon={Activity}
+        />
+
+
+        <MetricCard
+          title="Autonomia"
+          value={
+            insulinWithLowestAutonomy
+              ? `${formatDays(
+                  insulinWithLowestAutonomy
+                    .summary
+                    .estimated_days_remaining!
+                )} dias`
+              : "—"
+          }
+          description={
+            insulinWithLowestAutonomy
+              ? `Menor autonomia: ${
+                  insulinWithLowestAutonomy
+                    .insulin
+                    .name
+                }`
+              : "Aguardando histórico suficiente"
+          }
+          icon={Clock3}
+        />
+
+
+        <MetricCard
+          title="Insulinas ativas"
+          value={String(
+            activeInsulins.length
+          )}
+          description={
+            availableProjections === 1
+              ? "1 com projeção disponível"
+              : `${availableProjections} com projeção disponível`
+          }
+          icon={Syringe}
+        />
+
+      </section>
+
+    )}
 
         {insulins.length ===
         0 ? (

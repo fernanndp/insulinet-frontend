@@ -62,7 +62,11 @@
 }
 
 .modal-card.history-modal {
+  width: 100%;
   max-width: 600px;
+  height: min(720px, 90vh);
+
+  overflow: hidden;
 }
 
 .modal-header {
@@ -76,13 +80,17 @@
 
 .modal-header h2 {
   margin: 0;
+
   font-size: 19px;
+
   color: var(--text-primary);
 }
 
 .modal-header p {
   margin: 4px 0 0;
+
   color: var(--text-secondary);
+
   font-size: 13.5px;
 }
 
@@ -90,6 +98,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
   flex-shrink: 0;
 
   width: 32px;
@@ -105,7 +114,10 @@
   line-height: 1;
 
   cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease;
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
 }
 
 .modal-close:hover {
@@ -130,31 +142,41 @@
   padding: var(--space-3);
 
   border-radius: var(--radius-sm);
+
   background: var(--surface-soft);
 
   color: var(--text-secondary);
+
   font-size: 13px;
   line-height: 1.5;
 }
 
+
 /* ==========================================================================
-   Form layout helpers
+   Form layout
    ========================================================================== */
 
 .insulin-form-grid,
 .date-time-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+
+  grid-template-columns:
+    1fr 1fr;
+
   gap: var(--space-4);
 }
 
+
 /* ==========================================================================
-   Info / preview callouts
+   Info / preview
    ========================================================================== */
 
 .stock-product-info {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
   gap: var(--space-3);
 
   padding: var(--space-4);
@@ -173,12 +195,14 @@
 
 .stock-product-info span {
   color: var(--text-tertiary);
+
   font-size: 11.5px;
   font-weight: 600;
 }
 
 .stock-product-info strong {
   color: var(--text-primary);
+
   font-size: 14px;
 }
 
@@ -188,11 +212,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   gap: var(--space-3);
 
   padding: var(--space-4);
 
   border-radius: var(--radius-md);
+
   background: var(--color-primary-soft);
 }
 
@@ -206,6 +232,7 @@
 .stock-preview span,
 .adjust-current-stock span {
   color: var(--color-primary-dark);
+
   font-size: 12.5px;
   font-weight: 600;
 }
@@ -214,68 +241,27 @@
 .stock-preview strong,
 .adjust-current-stock strong {
   color: var(--text-primary);
+
   font-size: 20px;
   font-weight: 800;
 }
 
-.insulin-calculation-preview small {
+.insulin-calculation-preview small,
+.stock-preview small {
   color: var(--text-tertiary);
+
   font-size: 11.5px;
 }
 
-.adjust-preview {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
 
-  padding: var(--space-4);
-
-  border-radius: var(--radius-md);
-}
-
-.adjust-preview span {
-  font-size: 12.5px;
-  font-weight: 600;
-}
-
-.adjust-preview strong {
-  font-size: 20px;
-  font-weight: 800;
-}
-
-.adjust-preview small {
-  font-size: 12px;
-}
-
-.adjust-preview.positive {
-  background: var(--color-success-soft);
-}
-
-.adjust-preview.positive span,
-.adjust-preview.positive small {
-  color: var(--color-success-dark);
-}
-
-.adjust-preview.positive strong {
-  color: var(--color-success-dark);
-}
-
-.adjust-preview.negative {
-  background: var(--color-danger-soft);
-}
-
-.adjust-preview.negative span,
-.adjust-preview.negative small {
-  color: var(--color-danger-dark);
-}
-
-.adjust-preview.negative strong {
-  color: var(--color-danger-dark);
-}
+/* ==========================================================================
+   Insulin edit
+   ========================================================================== */
 
 .edit-insulin-warning {
   display: flex;
   flex-direction: column;
+
   gap: 4px;
 
   padding: var(--space-4);
@@ -288,23 +274,27 @@
 
 .edit-insulin-warning strong {
   color: #92400e;
+
   font-size: 13.5px;
 }
 
 .edit-insulin-warning span {
   color: #92400e;
+
   font-size: 12.5px;
   line-height: 1.5;
 }
 
+
 /* ==========================================================================
-   Status toggle switch
+   Status toggle
    ========================================================================== */
 
 .insulin-status-section {
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   gap: var(--space-4);
 
   padding: var(--space-4);
@@ -315,17 +305,21 @@
 
 .insulin-status-section strong {
   display: block;
+
   color: var(--text-primary);
+
   font-size: 14px;
 }
 
 .insulin-status-section span {
   color: var(--text-secondary);
+
   font-size: 12.5px;
 }
 
 .status-toggle {
   position: relative;
+
   flex-shrink: 0;
 
   width: 44px;
@@ -337,11 +331,13 @@
   background: var(--border-hover);
 
   cursor: pointer;
+
   transition: background 0.2s ease;
 }
 
 .status-toggle span {
   position: absolute;
+
   top: 3px;
   left: 3px;
 
@@ -351,6 +347,7 @@
   border-radius: 50%;
 
   background: #fff;
+
   box-shadow: var(--shadow-sm);
 
   transition: transform 0.2s ease;
@@ -364,12 +361,14 @@
   transform: translateX(18px);
 }
 
+
 /* ==========================================================================
-   Dose mode / segmented option buttons
+   Dose mode
    ========================================================================== */
 
 .dose-mode-buttons {
   display: flex;
+
   gap: 8px;
 }
 
@@ -388,7 +387,11 @@
   font-weight: 600;
 
   cursor: pointer;
-  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    color 0.15s ease;
 }
 
 .option-button:hover {
@@ -397,12 +400,14 @@
 
 .option-button.active {
   border-color: var(--color-primary);
+
   background: var(--color-primary-soft);
   color: var(--color-primary-dark);
 }
 
+
 /* ==========================================================================
-   Batch dose generator
+   Batch dose
    ========================================================================== */
 
 .batch-generator {
@@ -417,6 +422,7 @@
 .batch-section {
   display: flex;
   flex-direction: column;
+
   gap: var(--space-3);
 }
 
@@ -424,23 +430,29 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   gap: var(--space-3);
+
   flex-wrap: wrap;
 }
 
 .batch-toolbar strong {
   display: block;
+
   color: var(--text-primary);
+
   font-size: 14px;
 }
 
 .batch-toolbar > div > span {
   color: var(--text-tertiary);
+
   font-size: 12.5px;
 }
 
 .batch-toolbar-actions {
   display: flex;
+
   gap: 8px;
 }
 
@@ -457,19 +469,16 @@
   font-weight: 600;
 
   cursor: pointer;
-  transition: background 0.15s ease;
-}
-
-.batch-toolbar-actions button:hover {
-  background: var(--color-primary-soft);
 }
 
 .batch-list {
   display: flex;
   flex-direction: column;
+
   gap: 8px;
 
   max-height: 280px;
+
   overflow-y: auto;
 
   padding-right: 2px;
@@ -477,8 +486,12 @@
 
 .batch-row {
   display: grid;
-  grid-template-columns: auto auto 1fr 1fr;
+
+  grid-template-columns:
+    auto auto 1fr 1fr;
+
   align-items: center;
+
   gap: 10px;
 
   padding: 10px 12px;
@@ -496,36 +509,45 @@
 .batch-checkbox {
   width: 18px;
   height: 18px;
+
   accent-color: var(--color-primary);
 }
 
 .batch-date strong {
-  font-size: 13px;
   color: var(--text-primary);
+
+  font-size: 13px;
+
   white-space: nowrap;
 }
 
 .batch-field {
   display: flex;
   flex-direction: column;
+
   gap: 3px;
+
   min-width: 0;
 }
 
 .batch-field span {
   color: var(--text-tertiary);
+
   font-size: 10.5px;
   font-weight: 600;
 }
 
 .batch-field input {
   min-height: 36px;
+
   padding: 6px 10px;
+
   font-size: 13px;
 }
 
 .batch-unit-input {
   position: relative;
+
   display: flex;
   align-items: center;
 }
@@ -536,9 +558,11 @@
 
 .batch-unit-input span {
   position: absolute;
+
   right: 10px;
 
   color: var(--text-tertiary);
+
   font-size: 12px;
   font-weight: 600;
 }
@@ -546,11 +570,13 @@
 .batch-summary {
   display: flex;
   justify-content: space-around;
+
   gap: var(--space-3);
 
   padding: var(--space-3);
 
   border-radius: var(--radius-sm);
+
   background: var(--color-primary-soft);
 }
 
@@ -558,28 +584,35 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+
   gap: 2px;
 }
 
 .batch-summary span {
   color: var(--color-primary-dark);
+
   font-size: 11px;
   font-weight: 600;
 }
 
 .batch-summary strong {
   color: var(--text-primary);
+
   font-size: 16px;
 }
 
+
 /* ==========================================================================
-   History modal (dose history + containers)
+   History modal
    ========================================================================== */
 
 .history-header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+
+  flex-shrink: 0;
+
   gap: var(--space-4);
 
   margin-bottom: var(--space-4);
@@ -587,23 +620,30 @@
 
 .history-eyebrow {
   display: block;
+
   margin-bottom: 2px;
 
   color: var(--color-primary);
+
   font-size: 11px;
   font-weight: 700;
+
   letter-spacing: 0.06em;
 }
 
 .history-header h2 {
   margin: 0;
-  font-size: 19px;
+
   color: var(--text-primary);
+
+  font-size: 19px;
 }
 
 .history-header p {
   margin: 2px 0 0;
+
   color: var(--text-secondary);
+
   font-size: 13px;
 }
 
@@ -611,6 +651,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
   flex-shrink: 0;
 
   width: 32px;
@@ -625,7 +666,6 @@
   font-size: 18px;
 
   cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease;
 }
 
 .history-close-button:hover {
@@ -633,53 +673,29 @@
   color: var(--color-danger);
 }
 
-.movement-history-summary {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-
-  margin-bottom: var(--space-4);
-}
-
-.movement-history-summary > div {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  align-items: center;
-
-  padding: 10px 6px;
-
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--surface-soft);
-}
-
-.movement-history-summary span {
-  color: var(--text-tertiary);
-  font-size: 10.5px;
-  font-weight: 600;
-  text-align: center;
-}
-
-.movement-history-summary strong {
-  color: var(--text-primary);
-  font-size: 16px;
-}
-
 .history-content {
   flex: 1;
+
   min-height: 0;
+
+  overflow-y: auto;
+
+  padding-right: 3px;
 }
 
 .history-state {
   display: flex;
   flex-direction: column;
   align-items: center;
+
   gap: 10px;
 
-  padding: var(--space-10) var(--space-4);
+  padding:
+    var(--space-10)
+    var(--space-4);
 
   color: var(--text-secondary);
+
   font-size: 14px;
 }
 
@@ -691,7 +707,11 @@
   border-top-color: var(--color-primary);
   border-radius: 50%;
 
-  animation: history-spin 0.7s linear infinite;
+  animation:
+    history-spin
+    0.7s
+    linear
+    infinite;
 }
 
 @keyframes history-spin {
@@ -704,19 +724,25 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  text-align: center;
 
-  padding: var(--space-8) var(--space-4);
+  gap: 8px;
+
+  padding:
+    var(--space-8)
+    var(--space-4);
+
+  text-align: center;
 }
 
 .history-error strong {
   color: var(--text-primary);
+
   font-size: 14.5px;
 }
 
 .history-error span {
   color: var(--text-secondary);
+
   font-size: 13px;
 }
 
@@ -724,10 +750,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
-  text-align: center;
 
-  padding: var(--space-10) var(--space-4);
+  gap: 6px;
+
+  padding:
+    var(--space-10)
+    var(--space-4);
+
+  text-align: center;
 }
 
 .history-empty-icon {
@@ -737,9 +767,11 @@
 
   width: 44px;
   height: 44px;
+
   margin-bottom: 4px;
 
   border-radius: 50%;
+
   background: var(--surface-soft);
   color: var(--text-tertiary);
 
@@ -748,27 +780,34 @@
 
 .history-empty strong {
   color: var(--text-primary);
+
   font-size: 14.5px;
 }
 
 .history-empty span {
-  color: var(--text-secondary);
-  font-size: 13px;
   max-width: 34ch;
+
+  color: var(--text-secondary);
+
+  font-size: 13px;
 }
 
 .movement-history-list {
   display: flex;
   flex-direction: column;
+
   gap: 10px;
 }
 
 .movement-history-item {
   display: flex;
   flex-direction: column;
+
   gap: 6px;
 
-  padding: var(--space-3) var(--space-4);
+  padding:
+    var(--space-3)
+    var(--space-4);
 
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
@@ -780,13 +819,16 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   gap: var(--space-3);
 }
 
 .movement-history-title {
   display: flex;
   align-items: center;
+
   gap: 8px;
+
   min-width: 0;
 }
 
@@ -797,6 +839,7 @@
 
   font-size: 11px;
   font-weight: 700;
+
   white-space: nowrap;
 }
 
@@ -817,13 +860,16 @@
 
 .movement-date {
   color: var(--text-tertiary);
+
   font-size: 12px;
 }
 
 .movement-amount {
   display: flex;
   align-items: baseline;
+
   gap: 3px;
+
   flex-shrink: 0;
 }
 
@@ -833,8 +879,9 @@
 }
 
 .movement-amount span {
-  font-size: 11.5px;
   color: var(--text-tertiary);
+
+  font-size: 11.5px;
 }
 
 .movement-amount.movement-dose strong {
@@ -852,9 +899,11 @@
 .movement-history-meta {
   display: flex;
   align-items: center;
+
   gap: 6px;
 
   color: var(--text-secondary);
+
   font-size: 12.5px;
 }
 
@@ -866,28 +915,35 @@
   padding: 8px 10px;
 
   border-radius: var(--radius-sm);
+
   background: var(--surface-soft);
 }
 
 .movement-note span {
   display: block;
+
   margin-bottom: 2px;
 
   color: var(--text-tertiary);
+
   font-size: 10.5px;
   font-weight: 600;
 }
 
 .movement-note p {
   margin: 0;
+
   color: var(--text-primary);
+
   font-size: 13px;
   line-height: 1.5;
 }
 
 .movement-actions {
   display: flex;
+
   gap: 8px;
+
   margin-top: 2px;
 }
 
@@ -904,37 +960,26 @@
   font-weight: 600;
 
   cursor: pointer;
-  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
 }
 
 .history-edit-button {
   color: var(--color-primary);
 }
 
-.history-edit-button:hover:not(:disabled) {
-  border-color: var(--color-primary);
-  background: var(--color-primary-soft);
-}
-
 .history-delete-button {
   color: var(--color-danger);
 }
 
-.history-delete-button:hover:not(:disabled) {
-  border-color: var(--color-danger);
-  background: var(--color-danger-soft);
-}
-
-.history-edit-button:disabled,
-.history-delete-button:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-}
-
 .history-footer {
+  flex-shrink: 0;
+
   margin-top: var(--space-4);
+
   padding-top: var(--space-4);
+
   border-top: 1px solid var(--border);
+
+  background: var(--surface);
 }
 
 .history-footer .secondary-button,
@@ -942,16 +987,20 @@
   width: 100%;
 }
 
+
 /* ==========================================================================
-   Containers modal
+   Container cards
    ========================================================================== */
 
 .container-item {
   display: flex;
   flex-direction: column;
+
   gap: 8px;
 
-  padding: var(--space-3) var(--space-4);
+  padding:
+    var(--space-3)
+    var(--space-4);
 
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
@@ -963,6 +1012,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   gap: var(--space-3);
 }
 
@@ -970,37 +1020,25 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+
   gap: 8px;
 }
 
 .container-item-title strong {
   color: var(--text-primary);
+
   font-size: 13.5px;
 }
 
-.container-status-badge,
-.container-expiration-badge {
+.container-status-badge {
   padding: 3px 9px;
+
   border-radius: var(--radius-full);
+
   font-size: 10.5px;
   font-weight: 700;
+
   white-space: nowrap;
-}
-
-.container-expiration-ok {
-  background: var(--surface-soft);
-  color: var(--text-secondary);
-  border: 1px solid var(--border);
-}
-
-.container-expiration-expiring_soon {
-  background: var(--color-warning-soft);
-  color: #92400e;
-}
-
-.container-expiration-expired {
-  background: var(--color-danger-soft);
-  color: var(--color-danger-dark);
 }
 
 .container-status-sealed {
@@ -1014,9 +1052,10 @@
 }
 
 .container-status-empty {
+  border: 1px solid var(--border);
+
   background: var(--surface-soft);
   color: var(--text-tertiary);
-  border: 1px solid var(--border);
 }
 
 .container-status-discarded {
@@ -1027,32 +1066,42 @@
 .container-item-amount {
   display: flex;
   align-items: baseline;
+
   gap: 4px;
+
   flex-shrink: 0;
 }
 
 .container-item-amount strong {
   color: var(--text-primary);
+
   font-size: 14.5px;
   font-weight: 800;
 }
 
 .container-item-amount span {
   color: var(--text-tertiary);
+
   font-size: 12px;
 }
 
 .container-progress-track {
   height: 6px;
+
   border-radius: var(--radius-full);
+
   background: var(--border);
+
   overflow: hidden;
 }
 
 .container-progress-fill {
   height: 100%;
+
   border-radius: var(--radius-full);
+
   background: var(--color-primary);
+
   transition: width 0.3s ease;
 }
 
@@ -1071,20 +1120,323 @@
 .container-item-meta {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+
   gap: 6px;
 
   color: var(--text-tertiary);
+
   font-size: 11.5px;
 }
 
 .container-discarded-divider {
-  margin: var(--space-2) 0;
-  padding-top: var(--space-2);
-  border-top: 1px dashed var(--border);
+  margin:
+    var(--space-2)
+    0;
+
+  padding-top:
+    var(--space-2);
+
+  border-top:
+    1px
+    dashed
+    var(--border);
 
   color: var(--text-tertiary);
+
   font-size: 11.5px;
   font-weight: 600;
+
   text-transform: uppercase;
+
   letter-spacing: 0.04em;
+}
+
+
+/* ==========================================================================
+   Stock expiration groups
+   ========================================================================== */
+
+.stock-groups {
+  display: flex;
+  flex-direction: column;
+
+  gap: 20px;
+}
+
+.stock-expiration-group {
+  display: flex;
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+.stock-expiration-group-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 14px 16px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+
+  background: var(--surface-soft);
+}
+
+.stock-expiration-group-header
+> div:first-child {
+  display: flex;
+  flex-direction: column;
+
+  gap: 2px;
+}
+
+.stock-group-eyebrow {
+  color: var(--text-tertiary);
+
+  font-size: 9.5px;
+  font-weight: 700;
+
+  letter-spacing: 0.06em;
+}
+
+.stock-expiration-group-header
+> div:first-child
+> strong {
+  color: var(--text-primary);
+
+  font-size: 14px;
+}
+
+.stock-expiration-group-header small {
+  color: var(--text-secondary);
+
+  font-size: 11.5px;
+}
+
+.stock-group-expiration {
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  color: var(--color-primary);
+}
+
+.stock-group-expiration > div {
+  display: flex;
+  flex-direction: column;
+
+  gap: 2px;
+
+  text-align: right;
+}
+
+.stock-group-expiration span {
+  color: var(--text-tertiary);
+
+  font-size: 10px;
+}
+
+.stock-group-expiration strong {
+  color: var(--text-primary);
+
+  font-size: 13px;
+}
+
+.stock-expiration-edit {
+  align-self: flex-end;
+
+  margin-top: 3px;
+
+  padding: 0;
+
+  border: 0;
+
+  background: transparent;
+  color: var(--color-primary);
+
+  cursor: pointer;
+
+  font-size: 10.5px;
+  font-weight: 600;
+}
+
+.stock-expiration-edit:hover {
+  text-decoration: underline;
+}
+
+.stock-expiration-editor {
+  display: flex;
+  flex-direction: column;
+
+  gap: 6px;
+
+  min-width: 180px;
+}
+
+.stock-expiration-editor input {
+  min-height: 34px;
+
+  padding: 6px 8px;
+
+  font-size: 12px;
+}
+
+.stock-expiration-editor-actions {
+  display: flex;
+  justify-content: flex-end;
+
+  gap: 6px;
+}
+
+.stock-expiration-save,
+.stock-expiration-cancel {
+  padding: 5px 8px;
+
+  border-radius: 6px;
+
+  cursor: pointer;
+
+  font-size: 10.5px;
+  font-weight: 600;
+}
+
+.stock-expiration-save {
+  border:
+    1px
+    solid
+    var(--color-primary);
+
+  background:
+    var(--color-primary);
+
+  color: white;
+}
+
+.stock-expiration-cancel {
+  border:
+    1px
+    solid
+    var(--border);
+
+  background: white;
+
+  color:
+    var(--text-secondary);
+}
+
+
+/* ==========================================================================
+   Effective use limit
+   ========================================================================== */
+
+.container-use-limit {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 8px;
+
+  padding: 9px 11px;
+
+  border-radius: var(--radius-sm);
+
+  background: var(--surface-soft);
+}
+
+.container-use-limit > div {
+  display: flex;
+  flex-direction: column;
+
+  gap: 2px;
+}
+
+.container-use-limit strong {
+  color: var(--text-primary);
+
+  font-size: 12px;
+}
+
+.container-use-limit span {
+  color: var(--text-secondary);
+
+  font-size: 10.5px;
+}
+
+.container-use-limit.warning {
+  background: var(--color-warning-soft);
+
+  color: var(--color-warning);
+}
+
+.container-use-limit.critical {
+  background: var(--color-danger-soft);
+
+  color: var(--color-danger);
+}
+
+.container-use-limit.warning strong {
+  color: #92400e;
+}
+
+.container-use-limit.critical strong {
+  color: var(--color-danger-dark);
+}
+
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 560px) {
+  .modal-backdrop {
+    padding: 12px;
+  }
+
+  .modal-card {
+    padding: 20px;
+
+    border-radius: var(--radius-md);
+  }
+
+  .modal-actions {
+    flex-direction: column-reverse;
+  }
+
+  .modal-actions .secondary-button,
+  .modal-actions .primary-button {
+    width: 100%;
+  }
+
+  .insulin-form-grid,
+  .date-time-grid,
+  .stock-product-info {
+    grid-template-columns: 1fr;
+  }
+
+  .stock-expiration-group-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .stock-group-expiration {
+    width: 100%;
+  }
+
+  .stock-group-expiration > div {
+    width: 100%;
+
+    text-align: left;
+  }
+
+  .stock-expiration-edit {
+    align-self: flex-start;
+  }
+
+  .stock-expiration-editor {
+    width: 100%;
+  }
 }

@@ -1,41 +1,36 @@
-import { useState } from "react";
+import {
+  useState,
+} from "react";
+
 import type {
   FormEvent,
 } from "react";
 
 import {
   Link,
-  useNavigate,
 } from "react-router";
 
 import PasswordGuidance
   from "../components/auth/PasswordGuidance";
 
 import {
-  registerUser,
-} from "../services/authService";
+  changePassword,
+} from "../services/userService";
 
 import {
   validateNewPassword,
 } from "../utils/passwordValidation";
 
 
-export default function RegisterPage() {
-  const navigate = useNavigate();
-
+export default function SettingsPage() {
   const [
-    name,
-    setName,
+    currentPassword,
+    setCurrentPassword,
   ] = useState("");
 
   const [
-    email,
-    setEmail,
-  ] = useState("");
-
-  const [
-    password,
-    setPassword,
+    newPassword,
+    setNewPassword,
   ] = useState("");
 
   const [
@@ -46,6 +41,11 @@ export default function RegisterPage() {
   const [
     error,
     setError,
+  ] = useState("");
+
+  const [
+    success,
+    setSuccess,
   ] = useState("");
 
   const [
@@ -60,24 +60,18 @@ export default function RegisterPage() {
     event.preventDefault();
 
     setError("");
+    setSuccess("");
 
-    if (!name.trim()) {
+    if (!currentPassword) {
       setError(
-        "Informe seu nome."
-      );
-      return;
-    }
-
-    if (!email.trim()) {
-      setError(
-        "Informe seu e-mail."
+        "Informe sua senha atual."
       );
       return;
     }
 
     const passwordError =
       validateNewPassword(
-        password,
+        newPassword,
         confirmation
       );
 
@@ -86,21 +80,37 @@ export default function RegisterPage() {
       return;
     }
 
+    if (
+      currentPassword ===
+      newPassword
+    ) {
+      setError(
+        "A nova senha deve ser diferente da senha atual."
+      );
+      return;
+    }
+
     setLoading(true);
 
     try {
-      await registerUser({
-        name: name.trim(),
-        email: email.trim(),
-        password,
-      });
+      const response =
+        await changePassword(
+          currentPassword,
+          newPassword
+        );
 
-      navigate("/login");
+      setSuccess(
+        response.message
+      );
+
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmation("");
     } catch (err) {
       setError(
         err instanceof Error
           ? err.message
-          : "Não foi possível criar a conta."
+          : "Não foi possível alterar a senha."
       );
     } finally {
       setLoading(false);
@@ -121,16 +131,16 @@ export default function RegisterPage() {
             <h1>Insulinet</h1>
 
             <p>
-              Controle de estoque e autonomia
+              Segurança da conta
             </p>
           </div>
         </div>
 
-        <h2>Criar conta</h2>
+        <h2>Alterar senha</h2>
 
         <p className="subtitle">
-          Cadastre-se para manter seu
-          histórico salvo.
+          Para sua segurança, confirme sua
+          senha atual antes de definir uma nova.
         </p>
 
         <form
@@ -138,43 +148,28 @@ export default function RegisterPage() {
           noValidate
         >
           <label>
-            Nome
-
-            <input
-              value={name}
-              onChange={(event) =>
-                setName(
-                  event.target.value
-                )
-              }
-              autoComplete="name"
-            />
-          </label>
-
-          <label>
-            E-mail
-
-            <input
-              type="email"
-              value={email}
-              onChange={(event) =>
-                setEmail(
-                  event.target.value
-                )
-              }
-              autoComplete="email"
-              placeholder="seu@email.com"
-            />
-          </label>
-
-          <label>
-            Senha
+            Senha atual
 
             <input
               type="password"
-              value={password}
+              value={currentPassword}
               onChange={(event) =>
-                setPassword(
+                setCurrentPassword(
+                  event.target.value
+                )
+              }
+              autoComplete="current-password"
+            />
+          </label>
+
+          <label>
+            Nova senha
+
+            <input
+              type="password"
+              value={newPassword}
+              onChange={(event) =>
+                setNewPassword(
                   event.target.value
                 )
               }
@@ -183,7 +178,7 @@ export default function RegisterPage() {
           </label>
 
           <label>
-            Confirmar senha
+            Confirmar nova senha
 
             <input
               type="password"
@@ -198,7 +193,7 @@ export default function RegisterPage() {
           </label>
 
           <PasswordGuidance
-            password={password}
+            password={newPassword}
             confirmation={confirmation}
           />
 
@@ -208,23 +203,28 @@ export default function RegisterPage() {
             </div>
           )}
 
+          {success && (
+            <div className="success-message">
+              {success}
+            </div>
+          )}
+
           <button
             className="primary-button"
             disabled={loading}
           >
             {loading
-              ? "Criando..."
-              : "Criar conta"}
+              ? "Alterando..."
+              : "Alterar senha"}
           </button>
         </form>
 
-        <div className="auth-footer">
-          Já possui conta?{" "}
-
-          <Link to="/login">
-            Entrar
-          </Link>
-        </div>
+        <Link
+          className="secondary-link"
+          to="/dashboard"
+        >
+          Voltar para o Insulinet
+        </Link>
 
       </section>
     </main>

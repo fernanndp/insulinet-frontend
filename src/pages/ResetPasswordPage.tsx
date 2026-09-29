@@ -6,6 +6,13 @@ import {
   useSearchParams,
 } from "react-router";
 
+import PasswordGuidance
+  from "../components/auth/PasswordGuidance";
+
+import {
+  validateNewPassword,
+} from "../utils/passwordValidation";
+
 import { resetPassword } from "../services/authService";
 
 export default function ResetPasswordPage() {
@@ -34,8 +41,14 @@ export default function ResetPasswordPage() {
       return;
     }
 
-    if (password !== confirmation) {
-      setError("As senhas não coincidem.");
+    const passwordError =
+      validateNewPassword(
+        password,
+        confirmation
+      );
+
+    if (passwordError) {
+      setError(passwordError);
       return;
     }
 
@@ -84,7 +97,6 @@ export default function ResetPasswordPage() {
                 onChange={(event) =>
                   setPassword(event.target.value)
                 }
-                minLength={8}
                 required
               />
             </label>
@@ -97,10 +109,13 @@ export default function ResetPasswordPage() {
                 onChange={(event) =>
                   setConfirmation(event.target.value)
                 }
-                minLength={8}
                 required
               />
             </label>
+            <PasswordGuidance
+              password={password}
+              confirmation={confirmation}
+            />
 
             {error && (
               <div className="error-message">
