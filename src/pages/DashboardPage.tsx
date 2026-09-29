@@ -2020,7 +2020,9 @@ const availableProjections =
           insulinName={
             containersInsulin.name
           }
-
+          openValidityDays={
+            containersInsulin.open_validity_days
+          }
           onClose={() =>
             setContainersInsulin(
               null
